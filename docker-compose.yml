@@ -1,0 +1,14 @@
+version: "3"
+services:
+  database:
+    image: "postgres:latest"
+    ports: 
+      - 54320:5432
+    # environment:
+      # POSTGRES_USER: panter_user
+      # POSTGRES_PASSWORD: panter_password
+      # POSTGRES_DB: panter_db
+    env_file:
+      - docker-compose.env
+    # volumes:
+    #   - ./db-data/:/var/lib/postgresql/data/
