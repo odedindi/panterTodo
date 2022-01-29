@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { AppContainer } from './styles';
-import { useMe } from 'hooks/index';
+import { useMe } from 'src/hooks';
 
 import Navbar from './Navbar';
 import LoginSection from './LoginSection';
