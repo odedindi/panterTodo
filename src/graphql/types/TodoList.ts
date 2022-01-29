@@ -13,9 +13,9 @@ export const Query = extendType({
 	type: 'Query',
 	definition(t) {
 		t.crud.todoList(),
-		t.crud.todoLists({
-			ordering: true,
-			filtering: true,
-		});
+			t.crud.todoLists({
+				ordering: true,
+				filtering: true,
+			});
 	},
 });
