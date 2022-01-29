@@ -56,7 +56,10 @@ const TodoItem: React.FC<TodoProps> = ({
 				sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
 				onChange={() => handleToggle(id)}
 			/>
-			<ListItemText primary={title} secondary={completed ? '' : title} />
+			<ListItemText
+				primary={title}
+				// secondary={completed ? '' : title}
+			/>
 		</TodoContainer>
 	);
 };

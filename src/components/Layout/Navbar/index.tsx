@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { signIn, signOut } from 'next-auth/react';
 
-import { useMe } from 'hooks/index';
+import { useMe } from 'src/hooks';
+import { action, useStore } from 'src/store';
 
-import UserAvatar from '../../Avatar';
+import UserAvatar from 'src/components/Avatar';
 import TodoListMenu from './TodoListMenu';
 
 import {
@@ -23,6 +24,13 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 const Navbar = () => {
 	const me = useMe().data?.me;
+
+	const { dispatch } = useStore();
+	React.useEffect(() => {
+		if (me) {
+			dispatch(action.setUser({ user: me as unknown as User }));
+		}
+	}, [dispatch, me]);
 
 	const triggerHideNavbar = useScrollTrigger();
 

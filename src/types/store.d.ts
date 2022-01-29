@@ -1,16 +1,27 @@
+type SETUSER = 'SETUSER';
+interface SetUserAction {
+	type: SETUSER;
+	payload: { user: User };
+}
+
+type LOGOUTUSER = 'LOGOUTUSER';
+interface LogoutUserAction {
+	type: LOGOUTUSER;
+}
+
 type CREATETODO = 'CREATETODO';
 interface CreateTodoAction {
 	type: CREATETODO;
 	payload: {
 		title: Todo['title'];
-		todoListId: TodoList['id'];
+		todoListId: TodoList['title'];
 	};
 }
 
 type DELETETODO = 'DELETETODO';
 interface DeleteTodoAction {
 	type: DELETETODO;
-	payload: { id: Todo['id']; todoListId: TodoList['id'] };
+	payload: { id: Todo['id'] };
 }
 
 type EDITTODO = 'EDITTODO';
@@ -19,14 +30,13 @@ interface EditTodoAction {
 	payload: {
 		id: Todo['id'];
 		newTitle: Todo['title'];
-		todoListId: TodoList['id'];
 	};
 }
 
 type TOGGLETODO = 'TOGGLETODO';
 interface ToggleTodoAction {
 	type: TOGGLETODO;
-	payload: { id: Todo['id']; todoListId: TodoList['id'] };
+	payload: { id: Todo['id'] };
 }
 
 type SETTODOS = 'SETTODOS';
@@ -34,13 +44,6 @@ interface SetTodosAction {
 	type: SETTODOS;
 	payload: { todos: Todo[] };
 }
-
-type TodosReducerAction =
-	| CreateTodoAction
-	| DeleteTodoAction
-	| EditTodoAction
-	| SetTodosAction
-	| ToggleTodoAction;
 
 type CREATETODOLIST = 'CREATETODOLIST';
 interface CreateTodoListAction {
@@ -62,7 +65,14 @@ interface SelectTodoListAction {
 	payload: { id: TodoList['id'] };
 }
 
-type TodoListsReducerAction =
+type ReducerAction =
+	| SetUserAction
+	| LogoutUserAction
+	| CreateTodoAction
+	| DeleteTodoAction
+	| EditTodoAction
+	| SetTodosAction
+	| ToggleTodoAction
 	| SelectTodoListAction
 	| CreateTodoListAction
 	| DeleteTodoListAction;
@@ -74,18 +84,13 @@ type TodoListsState = {
 	selectedTodoList: TodoList['id'] | null;
 };
 
-type StoreInitialState = {
-	todos: TodosState;
-	todoLists: TodoListsState;
-};
-
+interface StoreState {
+	todoLists: TodoList[];
+	currentList: TodoList['id'] | undefined;
+	currentTodos: Todo[];
+	user: User | undefined;
+}
 interface StoreContext {
-	state: {
-		todosState: TodosState;
-		todoListsState: TodoListsState;
-	};
-	dispatch: {
-		todosDispatch: React.Dispatch<TodosReducerAction>;
-		todoListsDispatch: React.Dispatch<TodoListsReducerAction>;
-	};
+	storeState: StoreState;
+	dispatch: React.Dispatch<ReducerAction>;
 }

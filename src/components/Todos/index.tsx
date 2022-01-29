@@ -1,25 +1,18 @@
 import * as React from 'react';
 
-import useStore from 'src/store';
-import {
-	createTodoAction,
-	deleteTodoAction,
-	toggleTodoAction,
-} from 'src/store/actions';
+import { action, useStore } from 'src/store';
 
 import { List } from '@mui/material';
 
 import AddTodoForm from './AddTodoForm';
 import TodoItem from './TodoItem';
-import ErrorToast from 'components/ErrorToast';
+
+import ErrorToast from 'src/components/ErrorToast';
 
 const TodoApp = () => {
 	const {
-		state: {
-			todosState: todos,
-			todoListsState: { selectedTodoList },
-		},
-		dispatch: { todosDispatch: dispatch },
+		storeState: { currentTodos, currentList },
+		dispatch,
 	} = useStore();
 
 	// new todo form
@@ -41,12 +34,15 @@ const TodoApp = () => {
 					textFieldRef.current.children['1'].children['0'] as HTMLInputElement
 				).focus();
 
-			if (!selectedTodoList) return setShowToastError(true);
+			if (!currentList) return setShowToastError(true);
 			dispatch(
-				createTodoAction({ title: newTodoTitle, todoListId: selectedTodoList }),
+				action.createTodo({
+					title: newTodoTitle,
+					todoListId: currentList,
+				}),
 			);
 			setNewTodoTitle(''); // init value
-		}, [dispatch, newTodoTitle, selectedTodoList]),
+		}, [currentList, dispatch, newTodoTitle]),
 	};
 
 	// todo
@@ -54,22 +50,20 @@ const TodoApp = () => {
 		toggle: React.useCallback(
 			(id: Todo['id']) =>
 				dispatch(
-					toggleTodoAction({
+					action.toggleTodo({
 						id,
-						todoListId: selectedTodoList!,
 					}),
 				),
-			[dispatch, selectedTodoList],
+			[dispatch],
 		),
 		delete: React.useCallback(
 			(id: Todo['id']) =>
 				dispatch(
-					deleteTodoAction({
+					action.deleteTodo({
 						id,
-						todoListId: selectedTodoList!,
 					}),
 				),
-			[dispatch, selectedTodoList],
+			[dispatch],
 		),
 	};
 	return (
@@ -82,7 +76,7 @@ const TodoApp = () => {
 			/>
 			<ErrorToast show={showToastError} hide={setShowToastErrorFalse} />
 			<List>
-				{todos.map((todo) => (
+				{currentTodos.map((todo) => (
 					<TodoItem
 						todo={todo}
 						key={todo.id}

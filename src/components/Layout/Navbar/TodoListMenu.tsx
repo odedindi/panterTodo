@@ -1,11 +1,6 @@
 import * as React from 'react';
 
-import useStore from 'src/store';
-import {
-	createTodoListAction,
-	deleteTodoListAction,
-	selectTodoListAction,
-} from 'src/store/actions';
+import { action, useStore } from 'src/store';
 
 import {
 	IconButton,
@@ -25,10 +20,9 @@ import AddTodoListForm from './AddTodoListForm';
 
 const TodoListMenu = () => {
 	const {
-		state: {
-			todoListsState: { todoLists, selectedTodoList },
-		},
-		dispatch: { todoListsDispatch: dispatch },
+		storeState: { todoLists, currentList },
+
+		dispatch,
 	} = useStore();
 
 	// menu
@@ -43,10 +37,10 @@ const TodoListMenu = () => {
 	const handleSelectedTodoListChange = ({
 		target: { value },
 	}: SelectChangeEvent & { target: { value: TodoList['id'] } }) =>
-		dispatch(selectTodoListAction({ id: value }));
+		dispatch(action.selectTodoList({ id: value }));
 	// delete todolist
 	const handleDeleteTodoList = (id: TodoList['id']) =>
-		dispatch(deleteTodoListAction({ id }));
+		dispatch(action.deleteTodoList({ id }));
 
 	// new todolist form
 	const [newTodoListTitle, setNewTodoListTitle] = React.useState<string>('');
@@ -66,7 +60,7 @@ const TodoListMenu = () => {
 					textFieldRef.current.children['1'].children['0'] as HTMLInputElement
 				).focus();
 
-			dispatch(createTodoListAction({ title: newTodoListTitle }));
+			dispatch(action.createTodoList({ title: newTodoListTitle }));
 			setNewTodoListTitle(''); // init newTodoListTitle
 		}, [dispatch, newTodoListTitle]),
 	};
@@ -108,7 +102,7 @@ const TodoListMenu = () => {
 						deleteTodoList={handleDeleteTodoList}
 						handleChange={handleSelectedTodoListChange}
 						todoLists={todoLists}
-						value={selectedTodoList ?? ''}
+						value={currentList ?? ''}
 					/>
 				</MenuItem>
 				<MenuItem disableRipple={true}>

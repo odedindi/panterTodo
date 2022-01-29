@@ -1,14 +1,20 @@
 import type { NextPage } from 'next';
-import React from 'react';
+import * as React from 'react';
 
-import PageLayout from 'components/Layout';
+import PageLayout from 'src/components/Layout';
 
-import TodoApp from 'components/Todos';
+import TodoApp from 'src/components/Todos';
+import { useTodoList } from 'src/hooks/todoList/useTodoList';
 
-const Home: NextPage = () => (
-	<PageLayout>
-		<TodoApp />
-	</PageLayout>
-);
+const Home: NextPage = () => {
+	// const { data } = useTodoList();
+
+	// console.log(data);
+	return (
+		<PageLayout>
+			<TodoApp />
+		</PageLayout>
+	);
+};
 
 export default Home;

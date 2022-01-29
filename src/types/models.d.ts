@@ -12,3 +12,10 @@ interface TodoList {
 	title: string;
 	createdAt?: Date;
 }
+
+interface User {
+	id: string;
+	name: string;
+	email: string;
+	image: string;
+}
