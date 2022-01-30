@@ -4,11 +4,11 @@
 
 - Login Page
 
-  - <img src='https://raw.githubusercontent.com/odedindi/panterTodo/main/screenshots/chat.png' alt='Login Page' height="600px"  />
+  - <img src='https://github.com/odedindi/panterTodo/blob/main/screenshots/login.png' alt='Login Page' height="600px"  />
 
 - User Page with todo lists and todos
 
-  - <img src='https://raw.githubusercontent.com/odedindi/panterTodo/main/screenshots/map.png' alt='User Page' height="600px"  />
+  - <img src='https://github.com/odedindi/panterTodo/blob/main/screenshots/todoLists.png' alt='User Page' height="600px"  />
 
 ## The challenge
 
