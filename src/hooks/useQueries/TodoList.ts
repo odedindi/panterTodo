@@ -3,6 +3,7 @@ import type { TodoList } from './__generated__/TodoList';
 import type { CreateTodoList } from './__generated__/CreateTodoList';
 import type { DeleteTodoList } from './__generated__/DeleteTodoList';
 import type { EditTodoList } from './__generated__/EditTodoList';
+
 const TODOLIST = gql`
 	query TodoList {
 		todoLists {
@@ -24,7 +25,7 @@ const CREATETODOLIST = gql`
 
 export const useCreateTodoList = () =>
 	useMutation<CreateTodoList>(CREATETODOLIST, {
-		refetchQueries: [TODOLIST, 'todoLists'],
+		refetchQueries: [TODOLIST],
 		onQueryUpdated: (observableQuery) => observableQuery.refetch(),
 	});
 
@@ -38,20 +39,21 @@ const DELETETODOLIST = gql`
 
 export const useDeleteTodoList = () =>
 	useMutation<DeleteTodoList>(DELETETODOLIST, {
-		refetchQueries: [TODOLIST, 'todoLists'],
+		refetchQueries: [TODOLIST],
 		onQueryUpdated: (observableQuery) => observableQuery.refetch(),
 	});
 
 const EDITTODOLIST = gql`
-	mutation EditTodoList($id: String!, $title: String!) {
+	mutation EditTodoList($id: ID!, $title: String!) {
 		editTodoListTitle(id: $id, title: $title) {
 			id
+			title
 		}
 	}
 `;
 
 export const useEditTodoList = () =>
 	useMutation<EditTodoList>(EDITTODOLIST, {
-		refetchQueries: [TODOLIST, 'todoLists'],
+		refetchQueries: [TODOLIST],
 		onQueryUpdated: (observableQuery) => observableQuery.refetch(),
 	});

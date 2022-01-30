@@ -13,10 +13,10 @@ import type { SelectChangeEvent } from '@mui/material/Select';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 interface SelectTodoListProps {
-	deleteTodoList: (id: TodoList['id']) => void;
+	deleteTodoList: (id: ITodoList['id']) => void;
 	handleChange: (e: SelectChangeEvent) => void;
-	todoLists: TodoList[];
-	value: TodoList['title'];
+	todoLists: ITodoList[];
+	value: ITodoList['title'];
 }
 const SelectTodoList: React.FC<SelectTodoListProps> = ({
 	deleteTodoList,
@@ -24,6 +24,11 @@ const SelectTodoList: React.FC<SelectTodoListProps> = ({
 	todoLists,
 	value,
 }) => {
+	const [availableLists, setAvailableLists] = React.useState(() => todoLists);
+	React.useEffect(() => {
+		setAvailableLists(todoLists);
+	}, [todoLists]);
+
 	return (
 		<FormControl sx={{ m: 1, minWidth: 300 }}>
 			<InputLabel id="todoListsLabel">Todo Lists</InputLabel>
@@ -34,7 +39,7 @@ const SelectTodoList: React.FC<SelectTodoListProps> = ({
 				label="Todo lists"
 				onChange={handleChange}
 			>
-				{todoLists.map(({ id, title }) => (
+				{availableLists.map(({ id, title }) => (
 					<MenuItem key={id} value={id}>
 						<IconButton
 							edge="start"

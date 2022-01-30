@@ -1,7 +1,10 @@
 import * as React from 'react';
 
 import { action, useStore } from 'src/store';
-import { useCreateTodoList } from 'src/hooks/useQueries/useTodoList';
+import {
+	useCreateTodoList,
+	useDeleteTodoList,
+} from 'src/hooks/useQueries/TodoList';
 
 import {
 	IconButton,
@@ -24,7 +27,8 @@ const TodoListMenu = () => {
 		storeState: { todoLists, currentList },
 		dispatch,
 	} = useStore();
-
+	const [createTodoList, createData] = useCreateTodoList();
+	const [deleteTodoList, deleteData] = useDeleteTodoList();
 	// menu
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const handleMenu = {
@@ -36,17 +40,15 @@ const TodoListMenu = () => {
 	// select todolist
 	const handleSelectedTodoListChange = ({
 		target: { value },
-	}: SelectChangeEvent & { target: { value: TodoList['id'] } }) =>
+	}: SelectChangeEvent & { target: { value: ITodoList['id'] } }) =>
 		dispatch(action.selectTodoList({ id: value }));
 	// delete todolist
-	const handleDeleteTodoList = (id: TodoList['id']) =>
-		dispatch(action.deleteTodoList({ id }));
+	const handleDeleteTodoList = (id: ITodoList['id']) =>
+		deleteTodoList({ variables: { id } });
 
 	// new todolist form
 	const [newTodoListTitle, setNewTodoListTitle] = React.useState<string>('');
 	const textFieldRef = React.useRef<HTMLInputElement>(undefined!);
-	const [createTodoList, data] = useCreateTodoList();
-	console.log(data);
 
 	const handleTextField = {
 		change: React.useCallback(

@@ -5,9 +5,13 @@
 scalar DateTime
 
 type Mutation {
+  createTodo(title: String!, todoListId: String!): Todo!
   createTodoList(title: String!): TodoList!
+  deleteTodo(id: String!): Todo!
   deleteTodoList(id: String!): TodoList!
   editTodoListTitle(id: String!, title: String!): TodoList!
+  editTodoTitle(id: String!, title: String!): Todo!
+  toggleTodo(completed: Boolean!, id: ID!): Todo!
 }
 
 type Query {

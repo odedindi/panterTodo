@@ -1,6 +1,8 @@
 import type { NextPage } from 'next';
 import * as React from 'react';
 
+import styled from 'styled-components';
+
 import useStore from 'src/store';
 import PageLayout from 'src/components/Layout';
 import TodoApp from 'src/components/Todos';
@@ -13,9 +15,11 @@ const User: NextPage = () => {
 	return (
 		<PageLayout>
 			{currentList ? (
-				<h1>{todoLists.find((list) => list.id === currentList)?.title}</h1>
+				<Heading>
+					{todoLists.find((list) => list.id === currentList)?.title}
+				</Heading>
 			) : (
-				<h1>no current list</h1>
+				<Heading>Please choose a todo list from the todo lists menu </Heading>
 			)}
 
 			<TodoApp />
@@ -24,3 +28,8 @@ const User: NextPage = () => {
 };
 
 export default User;
+
+const Heading = styled.h1`
+	font-size: 1.5rem;
+	text-align: center;
+`;

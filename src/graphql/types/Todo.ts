@@ -1,6 +1,11 @@
-import { context } from './../context';
-import { extendType, objectType, queryType, list } from 'nexus';
-import { booleanArg, idArg, nonNull, stringArg } from 'nexus';
+import {
+	booleanArg,
+	extendType,
+	idArg,
+	nonNull,
+	objectType,
+	stringArg,
+} from 'nexus';
 
 export const Todo = objectType({
 	name: 'Todo',
@@ -18,53 +23,70 @@ export const Query = extendType({
 	definition(t) {
 		t.crud.todo();
 		t.crud.todos();
-		// t.list.nonNull.field('todos', {
-		// 	type: Todo,
-		// 	async resolve(_root, _args, context) {
-		// 		return context.prisma.todo.findMany();
-		// 	},
-		// });
 	},
 });
 
-// export const Mutation = extendType({
-// 	type: 'Mutation',
-// 	definition(t) {
-// 		t.nonNull.field('createTodo', {
-// 			type: Todo,
-// 			args: {
-// 				title: nonNull(stringArg()),
-// 				todoListId: nonNull(stringArg()),
-// 			},
-// 			async resolve(root, { title, todoListId }, context) {
-// 				const todo = await context.prisma.todo.create({
-// 					data: {
-// 						title,
-// 						todoListId,
-// 					},
-// 				});
-// 				return todo;
-// 			},
-// 		});
-// 		t.nonNull.field('toggleTodo', {
-// 			type: Todo,
-// 			args: {
-// 				id: nonNull(idArg()),
-// 				completed: nonNull(booleanArg()),
-// 			},
-// 			async resolve(root, args, context) {
-// 				try {
-// 					const todo = await context.prisma.todo.update({
-// 						where: { id: args.id },
-// 						data: {
-// 							completed: args.completed,
-// 						},
-// 					});
-// 					return todo;
-// 				} catch (err) {
-// 					throw new Error('Todo was not found');
-// 				}
-// 			},
-// 		});
-// 	},
-// });
+export const Mutation = extendType({
+	type: 'Mutation',
+	definition(t) {
+		t.nonNull.field('createTodo', {
+			type: Todo,
+			args: {
+				title: nonNull(stringArg()),
+				todoListId: nonNull(stringArg()),
+			},
+			resolve: async (_root, { title, todoListId }, context) =>
+				await context.prisma.todo.create({
+					data: {
+						title,
+						todoListId,
+					},
+				}),
+		});
+		t.nonNull.field('deleteTodo', {
+			type: Todo,
+			args: { id: nonNull(stringArg()) },
+			resolve: async (_root, { id }, context) =>
+				await context.prisma.todo.delete({
+					where: {
+						id,
+					},
+				}),
+		});
+
+		t.nonNull.field('editTodoTitle', {
+			type: Todo,
+			args: { id: nonNull(stringArg()), title: nonNull(stringArg()) },
+			resolve: async (_root, { id, title }, context) => {
+				try {
+					const todo = await context.prisma.todo.update({
+						where: { id },
+						data: { title },
+					});
+					return todo;
+				} catch (err) {
+					throw new Error(`Could not find todo id: ${id}, ${err}`);
+				}
+			},
+		});
+
+		t.nonNull.field('toggleTodo', {
+			type: Todo,
+			args: {
+				id: nonNull(idArg()),
+				completed: nonNull(booleanArg()),
+			},
+			resolve: async (_root, { id, completed }, context) => {
+				try {
+					const todo = await context.prisma.todo.update({
+						where: { id },
+						data: { completed },
+					});
+					return todo;
+				} catch (err) {
+					throw new Error(`Could not find todo id: ${id}, ${err}`);
+				}
+			},
+		});
+	},
+});

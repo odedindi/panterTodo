@@ -10,4 +10,6 @@ export const AppContainer = styled.div`
 		Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 
 	overflow-x: hidden;
+
+	height: 100vh;
 `;

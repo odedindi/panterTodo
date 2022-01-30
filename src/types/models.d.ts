@@ -1,18 +1,18 @@
-interface Todo {
+interface ITodo {
 	id: string;
 	title: string;
 	completed: boolean;
-	createdAt?: Date;
+	createdAt: string;
 	todoListId: string;
 }
 
-interface TodoList {
+interface ITodoList {
 	id: string;
 	todos?: Todo[];
 	title: string;
 }
 
-interface User {
+interface IUser {
 	id: string;
 	name: string | null;
 	email: string | null;

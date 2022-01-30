@@ -1,4 +1,4 @@
-const stringToColor = (str: string) => {
+const stringToColor = (str: string): string => {
 	let hash = 0;
 	let i;
 

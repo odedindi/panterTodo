@@ -1,4 +1,4 @@
-import { extendType, nonNull, objectType, queryType, stringArg } from 'nexus';
+import { extendType, nonNull, objectType, stringArg } from 'nexus';
 
 export const TodoList = objectType({
 	name: 'TodoList',
@@ -51,11 +51,17 @@ export const Mutation = extendType({
 		t.nonNull.field('editTodoListTitle', {
 			type: TodoList,
 			args: { id: nonNull(stringArg()), title: nonNull(stringArg()) },
-			resolve: async (_root, { id, title }, context) =>
-				await context.prisma.todoList.update({
-					where: { id },
-					data: { title },
-				}),
+			resolve: async (_root, { id, title }, context) => {
+				try {
+					const todo = await context.prisma.todoList.update({
+						where: { id },
+						data: { title },
+					});
+					return todo;
+				} catch (err) {
+					throw new Error(`Could not find todo id: ${id}, ${err}`);
+				}
+			},
 		});
 	},
 });

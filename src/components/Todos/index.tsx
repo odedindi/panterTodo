@@ -1,6 +1,13 @@
 import * as React from 'react';
 
-import { action, useStore } from 'src/store';
+import useStore from 'src/store';
+import {
+	useCreateTodo,
+	useDeleteTodo,
+	useEditTodo,
+	useToggleTodo,
+	useLayoutEffect,
+} from 'src/hooks';
 
 import { List } from '@mui/material';
 
@@ -9,17 +16,29 @@ import TodoItem from './TodoItem';
 
 import ErrorToast from 'src/components/ErrorToast';
 
+import gsap from 'gsap';
+
 const TodoApp = () => {
 	const {
 		storeState: { currentTodos, currentList },
-		dispatch,
 	} = useStore();
 
-	// new todo form
+	const [visibleTodos, setVisibleTodos] = React.useState(() => currentTodos);
+	React.useEffect(() => {
+		setVisibleTodos(currentTodos);
+	}, [currentTodos]);
+
+	const [createTodo, createTodoData] = useCreateTodo();
+	const [deleteTodo, deleteTodoData] = useDeleteTodo();
+	const [editTodo, editTodoData] = useEditTodo();
+	const [toggleTodo, toggleTodoData] = useToggleTodo();
+
+	// new todo
 	const [showToastError, setShowToastError] = React.useState(false);
 	const setShowToastErrorFalse = () => setShowToastError(false);
 	const [newTodoTitle, setNewTodoTitle] = React.useState<string>('');
 	const textFieldRef = React.useRef<HTMLInputElement>(undefined!);
+
 	const addTodoFormHandle = {
 		change: React.useCallback(
 			({
@@ -35,49 +54,65 @@ const TodoApp = () => {
 				).focus();
 
 			if (!currentList) return setShowToastError(true);
-			dispatch(
-				action.createTodo({
+			createTodo({
+				variables: {
 					title: newTodoTitle,
 					todoListId: currentList,
-				}),
-			);
+				},
+			});
 			setNewTodoTitle(''); // init value
-		}, [currentList, dispatch, newTodoTitle]),
+		}, [createTodo, currentList, newTodoTitle]),
 	};
 
 	// todo
 	const todoHandle = {
 		toggle: React.useCallback(
-			(id: Todo['id']) =>
-				dispatch(
-					action.toggleTodo({
+			({ completed, id }: { completed: ITodo['completed']; id: ITodo['id'] }) =>
+				toggleTodo({
+					variables: {
+						completed,
 						id,
-					}),
-				),
-			[dispatch],
+					},
+				}),
+			[toggleTodo],
 		),
 		delete: React.useCallback(
-			(id: Todo['id']) =>
-				dispatch(
-					action.deleteTodo({
-						id,
-					}),
-				),
-			[dispatch],
+			(id: ITodo['id']) => deleteTodo({ variables: { id } }),
+			[deleteTodo],
 		),
 	};
+
+	// ui
+
+	const todosRefs = React.useRef<HTMLLIElement[]>([]);
+	const todoRef = (el: HTMLLIElement) => {
+		if (!todosRefs.current.includes(el)) todosRefs.current.push(el);
+	};
+
+	useLayoutEffect(() => {
+		const fadeIn = (target: gsap.DOMTarget) =>
+			gsap.from(target, { opacity: 0, scale: 0.5, stagger: 0.1 });
+
+		const animation = fadeIn(todosRefs.current);
+		return () => {
+			animation.kill();
+		};
+	}, []);
 	return (
 		<>
-			<AddTodoForm
-				handleChange={addTodoFormHandle.change}
-				handleSubmit={addTodoFormHandle.submit}
-				value={newTodoTitle}
-				ref={textFieldRef}
-			/>
+			{currentList && (
+				<AddTodoForm
+					handleChange={addTodoFormHandle.change}
+					handleSubmit={addTodoFormHandle.submit}
+					value={newTodoTitle}
+					ref={textFieldRef}
+				/>
+			)}
 			<ErrorToast show={showToastError} hide={setShowToastErrorFalse} />
 			<List>
-				{currentTodos.map((todo) => (
+				{visibleTodos.map((todo) => (
 					<TodoItem
+						ref={todoRef}
 						todo={todo}
 						key={todo.id}
 						handleToggle={todoHandle.toggle}

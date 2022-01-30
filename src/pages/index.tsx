@@ -23,8 +23,10 @@ const Home: NextPage = () => {
 		return (
 			<PageLayout>
 				<LoginContainer>
-					<h1>Please Login if you have an account</h1>
-					<Button onClick={() => signIn('google')}>Login with Google</Button>
+					<h1>Please Login to start using the app</h1>
+					<Button variant="outlined" onClick={() => signIn('google')}>
+						Login with Google
+					</Button>
 				</LoginContainer>
 			</PageLayout>
 		);

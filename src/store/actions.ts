@@ -1,56 +1,9 @@
 import { actionType } from './';
 
-export const createTodoList = ({
-	title,
-}: {
-	title: TodoList['title'];
-}): CreateTodoListAction => ({
-	type: actionType.CREATETODOLIST,
-	payload: { title },
-});
-
-export const createTodo = ({
-	title,
-	todoListId,
-}: {
-	title: Todo['title'];
-	todoListId: TodoList['id'];
-}): CreateTodoAction => ({
-	type: actionType.CREATETODO,
-	payload: { title, todoListId },
-});
-
-export const deleteTodoList = ({
-	id,
-}: {
-	id: TodoList['id'];
-}): DeleteTodoListAction => ({
-	type: actionType.DELETETODOLIST,
-	payload: { id },
-});
-
-export const deleteTodo = ({ id }: { id: Todo['id'] }): DeleteTodoAction => ({
-	type: actionType.DELETETODO,
-	payload: { id },
-});
-
-export const editTodo = ({
-	id,
-	newTitle,
-	todoListId,
-}: {
-	id: Todo['id'];
-	newTitle: Todo['title'];
-	todoListId: TodoList['id'];
-}): EditTodoAction => ({
-	type: actionType.EDITTODO,
-	payload: { id, newTitle, todoListId },
-});
-
 export const selectTodoList = ({
 	id,
 }: {
-	id: TodoList['id'];
+	id: ITodoList['id'];
 }): SelectTodoListAction => ({
 	type: actionType.SELECTTODOLIST,
 	payload: { id },
@@ -59,23 +12,28 @@ export const selectTodoList = ({
 export const setTodoLists = ({
 	todoLists,
 }: {
-	todoLists: TodoList[];
+	todoLists: ITodoList[];
 }): SetTodoListsAction => ({
 	type: actionType.SETTODOLISTS,
 	payload: { todoLists },
 });
 
-export const setTodos = ({ todos }: { todos: Todo[] }): SetTodosAction => ({
+export const setTodos = ({ todos }: { todos: ITodo[] }): SetTodosAction => ({
 	type: actionType.SETTODOS,
 	payload: { todos },
 });
 
-export const toggleTodo = ({ id }: { id: Todo['id'] }): ToggleTodoAction => ({
-	type: actionType.TOGGLETODO,
-	payload: { id },
-});
-
-export const setUser = ({ user }: { user: User }): SetUserAction => ({
+export const setUser = ({ user }: { user: IUser }): SetUserAction => ({
 	type: actionType.SETUSER,
 	payload: { user },
+});
+
+export const Logout = (): LogoutUserAction => ({
+	type: actionType.LOGOUTUSER,
+	payload: {
+		todoLists: [],
+		currentList: undefined,
+		currentTodos: [],
+		user: undefined,
+	},
 });

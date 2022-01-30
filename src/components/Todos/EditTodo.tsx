@@ -2,11 +2,11 @@ import * as React from 'react';
 
 import { Form } from './styles';
 
-import { IconButton, TextField } from '@mui/material';
+import { FormControl, IconButton, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
 interface EditTodoProps {
-	todo: Todo;
+	todo: ITodo;
 }
 const EditTodo: React.FC<EditTodoProps> = ({ todo }) => {
 	const [value, setValue] = React.useState<string>('');
@@ -20,20 +20,15 @@ const EditTodo: React.FC<EditTodoProps> = ({ todo }) => {
 	);
 
 	const editTodo = React.useCallback(() => {}, []);
-	const handleSubmit = React.useCallback(
-		(e: React.FormEvent<HTMLFormElement>) => {
-			if (!value.trim()) textFieldRef.current.focus();
-			else {
-				editTodo();
-				setValue(''); // init value
-
-				e.preventDefault(); // block submit's reload event
-			}
-		},
-		[editTodo, value],
-	);
+	const handleSubmit = React.useCallback(() => {
+		if (!value.trim()) textFieldRef.current.focus();
+		else {
+			editTodo();
+			setValue(''); // init value
+		}
+	}, [editTodo, value]);
 	return (
-		<Form onSubmit={handleSubmit}>
+		<FormControl>
 			<TextField
 				label="Add Todo"
 				id="outlined-start-adornment"
@@ -45,6 +40,7 @@ const EditTodo: React.FC<EditTodoProps> = ({ todo }) => {
 							edge="end"
 							color="inherit"
 							aria-label="submit"
+							onClick={handleSubmit}
 						>
 							<SendIcon />
 						</IconButton>
@@ -55,7 +51,7 @@ const EditTodo: React.FC<EditTodoProps> = ({ todo }) => {
 				onChange={handleChange}
 				ref={textFieldRef}
 			/>
-		</Form>
+		</FormControl>
 	);
 };
 

@@ -1,68 +1,53 @@
 import * as React from 'react';
 
-import { useLayoutEffect } from 'src/hooks';
-
 import { TodoContainer } from './styles';
 import { Checkbox, IconButton, ListItemText } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import gsap from 'gsap';
-
 import moment from 'moment';
 
 interface TodoProps {
-	handleDelete: (id: Todo['id']) => void;
-	handleToggle: (id: Todo['id']) => void;
-	todo: Todo;
+	handleDelete: (id: ITodo['id']) => void;
+	handleToggle: ({
+		completed,
+		id,
+	}: {
+		completed: ITodo['completed'];
+		id: ITodo['id'];
+	}) => void;
+	todo: ITodo;
 }
 
-const TodoItem: React.FC<TodoProps> = ({
-	handleDelete,
-	handleToggle,
-	todo: { completed, createdAt, id, title },
-}) => {
-	const todoRef = React.useRef<HTMLLIElement>(undefined!);
-	console.log(moment(createdAt).fromNow());
-	useLayoutEffect(() => {
-		const fadeIn = (target: gsap.DOMTarget) =>
-			gsap.from(target, { opacity: 0 });
-
-		const animation = fadeIn(todoRef.current);
-		return () => {
-			animation.kill();
-		};
-	}, []);
-
-	return (
-		<TodoContainer
-			ref={todoRef}
-			completed={completed}
-			key={id}
-			secondaryAction={
-				<IconButton
-					edge={false}
-					aria-label="delete"
-					size="large"
-					onClick={() => handleDelete(id)}
-				>
-					<DeleteIcon />
-				</IconButton>
-			}
-		>
+const TodoItem = React.forwardRef<HTMLLIElement, TodoProps>(
+	(
+		{ handleDelete, handleToggle, todo: { completed, createdAt, id, title } },
+		ref,
+	) => (
+		<TodoContainer ref={ref} completed={completed} key={id}>
 			<Checkbox
 				aria-label="completed checkbox"
 				checked={completed}
 				color="success"
 				sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
-				onChange={() => handleToggle(id)}
+				onChange={() => handleToggle({ completed: !completed, id })}
 			/>
-			<ListItemText
-				primary={title}
-				secondary={completed ? undefined : moment(createdAt).fromNow()}
-			/>
+			{completed ? (
+				<ListItemText primary={title} />
+			) : (
+				<ListItemText primary={title} secondary={moment(createdAt).fromNow()} />
+			)}
+
+			<IconButton
+				edge={false}
+				aria-label="delete"
+				size="large"
+				onClick={() => handleDelete(id)}
+			>
+				<DeleteIcon />
+			</IconButton>
 		</TodoContainer>
-	);
-};
+	),
+);
 
 export default React.memo(TodoItem);

@@ -4,20 +4,20 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: EditTodoList
+// GraphQL mutation operation: CreateTodo
 // ====================================================
 
-export interface EditTodoList_editTodoListTitle {
-  __typename: "TodoList";
+export interface CreateTodo_createTodo {
+  __typename: "Todo";
   id: string;
   title: string;
 }
 
-export interface EditTodoList {
-  editTodoListTitle: EditTodoList_editTodoListTitle;
+export interface CreateTodo {
+  createTodo: CreateTodo_createTodo;
 }
 
-export interface EditTodoListVariables {
+export interface CreateTodoVariables {
   id: string;
   title: string;
 }

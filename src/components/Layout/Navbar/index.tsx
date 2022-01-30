@@ -3,9 +3,6 @@ import { signIn, signOut } from 'next-auth/react';
 
 import { useStore } from 'src/store';
 
-import UserAvatar from 'src/components/Avatar';
-import TodoListMenu from './TodoListMenu';
-
 import {
 	AppBar,
 	Box,
@@ -20,6 +17,11 @@ import {
 
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
+
+import TodoListMenu from './TodoListMenu';
+
+import UserAvatar from 'src/components/Avatar';
+import PanterLogo from 'src/components/Logo';
 
 const Navbar = () => {
 	const {
@@ -60,9 +62,7 @@ const Navbar = () => {
 								</IconButton>
 							</Tooltip>
 						)}
-						<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-							Panter Todos
-						</Typography>
+						<PanterLogo />
 						{user && (
 							<Stack direction="row" spacing={2} alignItems="center">
 								<TodoListMenu />

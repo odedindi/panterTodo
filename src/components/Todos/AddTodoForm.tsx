@@ -23,7 +23,7 @@ const AddTodoForm = React.forwardRef<HTMLInputElement, AddTodoFormProps>(
 				<TextField
 					label="Add Todo"
 					id="outlined-start-adornment"
-					sx={{ p: 0.5, width: '100%' }}
+					// sx={{  width: '100%' }}
 					autoComplete="off"
 					InputProps={{
 						endAdornment: (

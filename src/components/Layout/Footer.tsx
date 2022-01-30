@@ -4,7 +4,7 @@ import { AppBar, Link, Stack } from '@mui/material';
 
 const Footer = () => (
 	<AppBar
-		color="transparent"
+		color="secondary"
 		sx={{ top: 'auto', bottom: 0, alignItems: 'center' }}
 	>
 		<Link

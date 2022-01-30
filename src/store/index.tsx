@@ -7,7 +7,7 @@ import reducer from './reducer';
 import { BehaviorSubject, Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { combineLatestWith, map, tap, takeUntil } from 'rxjs/operators';
 
-import { useUser, useTodoList, useListTodos } from 'src/hooks';
+import { useUser, useTodoList, useTodos } from 'src/hooks';
 
 const storeInitalState: StoreState = {
 	todoLists: [],
@@ -28,10 +28,10 @@ const TodoStoreProvider: React.FC = ({ children }) => {
 
 	const user = useUser().data?.user;
 	const todoLists = useTodoList().data?.todoLists;
-	const todos = useListTodos().data?.todos;
+	const todos = useTodos().data?.todos;
 
 	// ========== failed attempt using lazy query ==========
-	// const [getCurrentTodos, { data }] = useListTodos();
+	// const [getCurrentTodos, { data }] = useTodos();
 	// let query = true;
 	// if (storeState.currentList && query) {
 	// 	query = false;
@@ -45,9 +45,7 @@ const TodoStoreProvider: React.FC = ({ children }) => {
 		() => new Subject(),
 		[],
 	);
-	const updateStore$ = new BehaviorSubject<StoreOperation>(
-		(storeState: Partial<StoreState>) => storeState,
-	);
+
 	const user$ = React.useMemo(() => of(user), [user]);
 	const todoLists$ = React.useMemo(() => of(todoLists), [todoLists]);
 	const currentList$ = React.useMemo(
@@ -70,7 +68,6 @@ const TodoStoreProvider: React.FC = ({ children }) => {
 				map(([todos, currentList]) =>
 					todos?.filter(({ todoListId }) => todoListId === currentList),
 				),
-				tap((tl) => console.log('tl: ', tl)),
 				takeUntil(destroyeSubscribtion$),
 			)
 			.subscribe((todos) => {
