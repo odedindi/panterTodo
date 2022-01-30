@@ -12,7 +12,7 @@
 
 ## The challenge
 
-Your challenge is to create a good old todo app. Boring, i know, but still a good exercise:
+
 
 - [x] A logged in user should be able to create new Todo-lists
 - [x] A list should have some title and of course Todos
@@ -22,7 +22,7 @@ Your challenge is to create a good old todo app. Boring, i know, but still a goo
 - [x] use apollo queries and mutations to fetch and update data
 - [x] other users or not logged in users should not see other's todolists
 
-Feel free to spice things up, make it beautiful, fancy, add more functionality, etc.
+
 
 ### Work description
 
