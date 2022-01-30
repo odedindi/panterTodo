@@ -7,6 +7,7 @@ interface SetUserAction {
 type LOGOUTUSER = 'LOGOUTUSER';
 interface LogoutUserAction {
 	type: LOGOUTUSER;
+	payload: undefined;
 }
 
 type CREATETODO = 'CREATETODO';
@@ -30,6 +31,7 @@ interface EditTodoAction {
 	payload: {
 		id: Todo['id'];
 		newTitle: Todo['title'];
+		todoListId: TodoList['id'];
 	};
 }
 
@@ -65,17 +67,24 @@ interface SelectTodoListAction {
 	payload: { id: TodoList['id'] };
 }
 
+type SETTODOLISTS = 'SETTODOLISTS';
+interface SetTodoListsAction {
+	type: SETTODOLISTS;
+	payload: { todoLists: TodoList[] };
+}
+
 type ReducerAction =
-	| SetUserAction
-	| LogoutUserAction
+	| CreateTodoListAction
 	| CreateTodoAction
+	| DeleteTodoListAction
 	| DeleteTodoAction
 	| EditTodoAction
-	| SetTodosAction
-	| ToggleTodoAction
+	| LogoutUserAction
 	| SelectTodoListAction
-	| CreateTodoListAction
-	| DeleteTodoListAction;
+	| SetTodoListsAction
+	| SetTodosAction
+	| SetUserAction
+	| ToggleTodoAction;
 
 type TodosState = Todo[];
 

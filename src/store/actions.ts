@@ -1,13 +1,12 @@
 import { actionType } from './';
 
-export const setUser = ({ user }: { user: User }): SetUserAction => ({
-	type: actionType.SETUSER,
-	payload: { user },
-});
-
-export const setTodos = ({ todos }: { todos: Todo[] }): SetTodosAction => ({
-	type: actionType.SETTODOS,
-	payload: { todos },
+export const createTodoList = ({
+	title,
+}: {
+	title: TodoList['title'];
+}): CreateTodoListAction => ({
+	type: actionType.CREATETODOLIST,
+	payload: { title },
 });
 
 export const createTodo = ({
@@ -21,26 +20,31 @@ export const createTodo = ({
 	payload: { title, todoListId },
 });
 
-export const editTodo = ({
+export const deleteTodoList = ({
 	id,
-	newTitle,
 }: {
-	id: Todo['id'];
-	newTitle: Todo['title'];
-	todoListId: TodoList['id'];
-}): EditTodoAction => ({
-	type: actionType.EDITTODO,
-	payload: { id, newTitle },
-});
-
-export const toggleTodo = ({ id }: { id: Todo['id'] }): ToggleTodoAction => ({
-	type: actionType.TOGGLETODO,
+	id: TodoList['id'];
+}): DeleteTodoListAction => ({
+	type: actionType.DELETETODOLIST,
 	payload: { id },
 });
 
 export const deleteTodo = ({ id }: { id: Todo['id'] }): DeleteTodoAction => ({
 	type: actionType.DELETETODO,
 	payload: { id },
+});
+
+export const editTodo = ({
+	id,
+	newTitle,
+	todoListId,
+}: {
+	id: Todo['id'];
+	newTitle: Todo['title'];
+	todoListId: TodoList['id'];
+}): EditTodoAction => ({
+	type: actionType.EDITTODO,
+	payload: { id, newTitle, todoListId },
 });
 
 export const selectTodoList = ({
@@ -52,20 +56,26 @@ export const selectTodoList = ({
 	payload: { id },
 });
 
-export const createTodoList = ({
-	title,
+export const setTodoLists = ({
+	todoLists,
 }: {
-	title: TodoList['title'];
-}): CreateTodoListAction => ({
-	type: actionType.CREATETODOLIST,
-	payload: { title },
+	todoLists: TodoList[];
+}): SetTodoListsAction => ({
+	type: actionType.SETTODOLISTS,
+	payload: { todoLists },
 });
 
-export const deleteTodoList = ({
-	id,
-}: {
-	id: TodoList['id'];
-}): DeleteTodoListAction => ({
-	type: actionType.DELETETODOLIST,
+export const setTodos = ({ todos }: { todos: Todo[] }): SetTodosAction => ({
+	type: actionType.SETTODOS,
+	payload: { todos },
+});
+
+export const toggleTodo = ({ id }: { id: Todo['id'] }): ToggleTodoAction => ({
+	type: actionType.TOGGLETODO,
 	payload: { id },
+});
+
+export const setUser = ({ user }: { user: User }): SetUserAction => ({
+	type: actionType.SETUSER,
+	payload: { user },
 });

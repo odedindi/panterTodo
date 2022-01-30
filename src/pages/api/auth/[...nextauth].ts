@@ -8,7 +8,7 @@ import {
 	GOOGLE_CLIENT_ID,
 	GOOGLE_CLIENT_SECRET,
 	AUTH_SECRET,
-} from 'config/constants';
+} from 'src/config/constants';
 
 export default NextAuth({
 	adapter: PrismaAdapter(prismaClient),

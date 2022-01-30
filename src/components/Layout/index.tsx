@@ -1,20 +1,27 @@
 import * as React from 'react';
 
+import { useSession } from 'next-auth/react';
+
 import { AppContainer } from './styles';
-import { useMe } from 'hooks/index';
 
 import Navbar from './Navbar';
-import LoginSection from './LoginSection';
 import Footer from './Footer';
 
-const PageLayout: React.FC = ({ children }) => {
-	const me = useMe().data?.me;
+import Spinner from 'src/components/Spinner';
 
+const PageLayout: React.FC = ({ children }) => {
+	const { status } = useSession();
 	return (
 		<AppContainer>
-			<Navbar />
-			{me ? children : <LoginSection />}
-			<Footer />
+			{status === 'loading' ? (
+				<Spinner />
+			) : (
+				<>
+					<Navbar />
+					{children}
+					<Footer />
+				</>
+			)}
 		</AppContainer>
 	);
 };

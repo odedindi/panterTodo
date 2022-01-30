@@ -12,6 +12,7 @@ export interface Me_me {
   id: string;
   email: string | null;
   image: string | null;
+  name: string | null;
 }
 
 export interface Me {

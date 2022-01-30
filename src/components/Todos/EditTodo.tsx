@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { Form } from './styles';
-import { useMe } from 'hooks/index';
 
 import { IconButton, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';

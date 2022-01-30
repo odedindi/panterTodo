@@ -6,7 +6,6 @@ import { TodoContainer } from './styles';
 import { Checkbox, IconButton, ListItemText } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
-import styled from 'styled-components';
 
 import gsap from 'gsap';
 

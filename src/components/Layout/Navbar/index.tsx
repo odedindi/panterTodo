@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { signIn, signOut } from 'next-auth/react';
 
-import { useMe } from 'src/hooks';
-import { action, useStore } from 'src/store';
+import { useStore } from 'src/store';
 
 import UserAvatar from 'src/components/Avatar';
 import TodoListMenu from './TodoListMenu';
@@ -23,14 +22,9 @@ import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 const Navbar = () => {
-	const me = useMe().data?.me;
-
-	const { dispatch } = useStore();
-	React.useEffect(() => {
-		if (me) {
-			dispatch(action.setUser({ user: me as unknown as User }));
-		}
-	}, [dispatch, me]);
+	const {
+		storeState: { user },
+	} = useStore();
 
 	const triggerHideNavbar = useScrollTrigger();
 
@@ -39,7 +33,7 @@ const Navbar = () => {
 			<Box sx={{ flexGrow: 1 }}>
 				<AppBar position="static">
 					<Toolbar>
-						{me ? (
+						{user ? (
 							<Tooltip title="Logout">
 								<IconButton
 									size="large"
@@ -47,7 +41,7 @@ const Navbar = () => {
 									color="inherit"
 									aria-label="logout"
 									sx={{ mr: 2 }}
-									onClick={() => signOut({ redirect: false })}
+									onClick={() => signOut({ redirect: true, callbackUrl: '/' })}
 								>
 									<LogoutIcon />
 								</IconButton>
@@ -69,7 +63,7 @@ const Navbar = () => {
 						<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 							Panter Todos
 						</Typography>
-						{me && (
+						{user && (
 							<Stack direction="row" spacing={2} alignItems="center">
 								<TodoListMenu />
 								<UserAvatar />

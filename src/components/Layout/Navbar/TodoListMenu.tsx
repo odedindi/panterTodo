@@ -21,7 +21,6 @@ import AddTodoListForm from './AddTodoListForm';
 const TodoListMenu = () => {
 	const {
 		storeState: { todoLists, currentList },
-
 		dispatch,
 	} = useStore();
 

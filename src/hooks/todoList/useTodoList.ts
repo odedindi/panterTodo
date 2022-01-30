@@ -1,12 +1,13 @@
+import { Query } from './../../graphql/types/User';
 import { gql, useQuery } from '@apollo/client';
 
 const TODOLIST = gql`
 	query TodoList {
-		todoList {
+		todoLists {
 			id
 			title
-			todos
 		}
 	}
 `;
 export const useTodoList = () => useQuery<any>(TODOLIST);
+

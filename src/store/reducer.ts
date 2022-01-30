@@ -1,21 +1,23 @@
+import { Reducer } from 'react';
 import * as actionType from './actionTypes';
 import { generateTodoList } from 'src/utils/generateTodoList';
 import { generateTodo } from 'src/utils/generateTodo';
 
-import { inMemoryStorage } from 'src/repositories/inMemory';
-
-export const reducer = (
-	state: StoreState,
-	{ type, payload }: ReducerAction,
-): StoreState => {
+export const reducer: Reducer<StoreState, ReducerAction> = (
+	state,
+	{ type, payload },
+) => {
 	switch (type) {
-		case actionType.SELECTTODOLIST:
-			return { ...state, currentList: payload.id };
-
 		case actionType.CREATETODOLIST:
 			return {
 				...state,
 				todoLists: [generateTodoList(payload), ...state.todoLists],
+			};
+
+		case actionType.CREATETODO:
+			return {
+				...state,
+				currentTodos: [...state.currentTodos, generateTodo(payload)],
 			};
 
 		case actionType.DELETETODOLIST:
@@ -26,13 +28,12 @@ export const reducer = (
 					state.currentList === payload.id ? undefined : state.currentList,
 			};
 
-		case actionType.SETTODOS:
-			return { ...state, currentTodos: payload.todos };
-
-		case actionType.CREATETODO:
+		case actionType.DELETETODO:
 			return {
 				...state,
-				currentTodos: [...state.currentTodos, generateTodo(payload)],
+				currentTodos: [
+					...state.currentTodos.filter((todo) => todo.id !== payload.id),
+				],
 			};
 
 		case actionType.EDITTODO:
@@ -47,6 +48,15 @@ export const reducer = (
 				],
 			};
 
+		case actionType.SETTODOLISTS:
+			return { ...state, todoLists: payload.todoLists };
+
+		case actionType.SELECTTODOLIST:
+			return { ...state, currentList: payload.id };
+
+		case actionType.SETTODOS:
+			return { ...state, currentTodos: payload.todos };
+
 		case actionType.TOGGLETODO:
 			return {
 				...state,
@@ -56,14 +66,6 @@ export const reducer = (
 							? { ...todo, completed: !todo.completed }
 							: todo,
 					),
-				],
-			};
-
-		case actionType.DELETETODO:
-			return {
-				...state,
-				currentTodos: [
-					...state.currentTodos.filter((todo) => todo.id !== payload.id),
 				],
 			};
 
