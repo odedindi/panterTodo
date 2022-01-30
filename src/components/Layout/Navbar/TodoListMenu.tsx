@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { action, useStore } from 'src/store';
+import { useCreateTodoList } from 'src/hooks/useQueries/useTodoList';
 
 import {
 	IconButton,
@@ -44,6 +45,8 @@ const TodoListMenu = () => {
 	// new todolist form
 	const [newTodoListTitle, setNewTodoListTitle] = React.useState<string>('');
 	const textFieldRef = React.useRef<HTMLInputElement>(undefined!);
+	const [createTodoList, data] = useCreateTodoList();
+	console.log(data);
 
 	const handleTextField = {
 		change: React.useCallback(
@@ -58,10 +61,10 @@ const TodoListMenu = () => {
 				return (
 					textFieldRef.current.children['1'].children['0'] as HTMLInputElement
 				).focus();
-
-			dispatch(action.createTodoList({ title: newTodoListTitle }));
+			createTodoList({ variables: { title: newTodoListTitle } });
+			// dispatch(action.createTodoList({ title: newTodoListTitle }));
 			setNewTodoListTitle(''); // init newTodoListTitle
-		}, [dispatch, newTodoListTitle]),
+		}, [createTodoList, newTodoListTitle]),
 	};
 
 	return (

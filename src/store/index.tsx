@@ -5,9 +5,9 @@ import * as actionType from './actionTypes';
 import reducer from './reducer';
 
 import { BehaviorSubject, Observable, of, ReplaySubject, Subject } from 'rxjs';
-import { catchError, map, scan, share, tap, takeUntil } from 'rxjs/operators';
+import { combineLatestWith, map, tap, takeUntil } from 'rxjs/operators';
 
-import { useMe, useTodoList } from 'src/hooks';
+import { useUser, useTodoList, useListTodos } from 'src/hooks';
 
 const storeInitalState: StoreState = {
 	todoLists: [],
@@ -25,38 +25,62 @@ type StoreOperation = (storeState: Partial<StoreState>) => Partial<StoreState>;
 
 const TodoStoreProvider: React.FC = ({ children }) => {
 	const [storeState, dispatch] = React.useReducer(reducer, storeInitalState);
-	const me = useMe().data?.me;
-	const { data: todoLists } = useTodoList();
+
+	const user = useUser().data?.user;
+	const todoLists = useTodoList().data?.todoLists;
+	const todos = useListTodos().data?.todos;
+
+	// ========== failed attempt using lazy query ==========
+	// const [getCurrentTodos, { data }] = useListTodos();
+	// let query = true;
+	// if (storeState.currentList && query) {
+	// 	query = false;
+	// 	console.log('currentList: ', storeState.currentList);
+	// 	getCurrentTodos();
+	// }
+	// console.log('currentTodos:', data);
+	// ========== failed attempt using lazy query ==========
+
 	const destroyeSubscribtion$: Subject<boolean> = React.useMemo(
 		() => new Subject(),
 		[],
 	);
-
 	const updateStore$ = new BehaviorSubject<StoreOperation>(
 		(storeState: Partial<StoreState>) => storeState,
 	);
-	const user$ = React.useMemo(() => new BehaviorSubject(me), [me]);
-	const todoLists$ = React.useMemo(
-		() => new BehaviorSubject(todoLists),
-		[todoLists],
+	const user$ = React.useMemo(() => of(user), [user]);
+	const todoLists$ = React.useMemo(() => of(todoLists), [todoLists]);
+	const currentList$ = React.useMemo(
+		() => of(storeState.currentList),
+		[storeState.currentList],
 	);
+	const currentTodos$ = React.useMemo(() => of(todos), [todos]);
+
 	React.useEffect(() => {
 		user$.pipe(takeUntil(destroyeSubscribtion$)).subscribe((user) => {
 			if (user) dispatch(action.setUser({ user }));
 		});
-		todoLists$
+		todoLists$.pipe(takeUntil(destroyeSubscribtion$)).subscribe((todoLists) => {
+			if (todoLists) dispatch(action.setTodoLists({ todoLists }));
+		});
+
+		currentTodos$
 			.pipe(
+				combineLatestWith(currentList$),
+				map(([todos, currentList]) =>
+					todos?.filter(({ todoListId }) => todoListId === currentList),
+				),
 				tap((tl) => console.log('tl: ', tl)),
 				takeUntil(destroyeSubscribtion$),
 			)
-			.subscribe((todoLists) => {
-				if (todoLists) dispatch(action.setTodoLists(todoLists));
+			.subscribe((todos) => {
+				if (todos) dispatch(action.setTodos({ todos }));
 			});
 		return () => {
 			destroyeSubscribtion$.next(true);
 			destroyeSubscribtion$.complete();
 		};
-	}, [destroyeSubscribtion$, todoLists$, user$]);
+	}, [currentList$, currentTodos$, destroyeSubscribtion$, todoLists$, user$]);
 
 	return <Provider value={{ storeState, dispatch }}>{children}</Provider>;
 };

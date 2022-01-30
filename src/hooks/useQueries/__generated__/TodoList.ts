@@ -4,17 +4,15 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: Me
+// GraphQL query operation: TodoList
 // ====================================================
 
-export interface Me_me {
-  __typename: "User";
+export interface TodoList_todoLists {
+  __typename: "TodoList";
   id: string;
-  email: string | null;
-  image: string | null;
-  name: string | null;
+  title: string;
 }
 
-export interface Me {
-  me: Me_me | null;
+export interface TodoList {
+  todoLists: TodoList_todoLists[] | null;
 }

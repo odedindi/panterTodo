@@ -1,16 +1,15 @@
 import { context } from './../context';
 import { extendType, objectType, queryType, list } from 'nexus';
 import { booleanArg, idArg, nonNull, stringArg } from 'nexus';
-import { TodoList } from './TodoList';
 
 export const Todo = objectType({
 	name: 'Todo',
 	definition(t) {
-		t.model.id();
-		t.model.title();
-		t.model.completed();
-		t.model.createdAt();
-		t.model.todoListId();
+		t.model.id()!;
+		t.model.title()!;
+		t.model.completed()!;
+		t.model.createdAt()!;
+		t.model.todoListId()!;
 	},
 });
 
@@ -18,21 +17,11 @@ export const Query = extendType({
 	type: 'Query',
 	definition(t) {
 		t.crud.todo();
-		t.crud.todos({
-			ordering: { title: true },
-			filtering: { todoListId: true },
-		});
-		// t.list.field('todosByList', {
-		// 	type: list(Todo),
-		// 	args: {
-		// 		todoListId: nonNull(stringArg()),
-		// 	},
-		// 	async resolve(_root, args, context) {
-		// 		return context.prisma.todo.findMany({
-		// 			where: {
-		// 				todoListId: args
-		// 			},
-		// 		});
+		t.crud.todos();
+		// t.list.nonNull.field('todos', {
+		// 	type: Todo,
+		// 	async resolve(_root, _args, context) {
+		// 		return context.prisma.todo.findMany();
 		// 	},
 		// });
 	},

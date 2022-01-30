@@ -4,58 +4,18 @@
 
 scalar DateTime
 
-input NestedStringFilter {
-  contains: String
-  endsWith: String
-  equals: String
-  gt: String
-  gte: String
-  in: [String!]
-  lt: String
-  lte: String
-  not: NestedStringFilter
-  notIn: [String!]
-  startsWith: String
+type Mutation {
+  createTodoList(title: String!): TodoList!
+  deleteTodoList(id: String!): TodoList!
+  editTodoListTitle(id: String!, title: String!): TodoList!
 }
 
 type Query {
-  me: User
   todo(where: TodoWhereUniqueInput!): Todo
-  todoLists: [TodoList]
-  todos(after: TodoWhereUniqueInput, before: TodoWhereUniqueInput, first: Int, last: Int, orderBy: [QueryTodosOrderByInput!], where: QueryTodosWhereInput): [Todo!]!
-}
-
-enum QueryMode {
-  default
-  insensitive
-}
-
-input QueryTodosOrderByInput {
-  title: SortOrder
-}
-
-input QueryTodosWhereInput {
-  todoListId: StringFilter
-}
-
-enum SortOrder {
-  asc
-  desc
-}
-
-input StringFilter {
-  contains: String
-  endsWith: String
-  equals: String
-  gt: String
-  gte: String
-  in: [String!]
-  lt: String
-  lte: String
-  mode: QueryMode
-  not: NestedStringFilter
-  notIn: [String!]
-  startsWith: String
+  todoList(where: TodoListWhereUniqueInput!): TodoList
+  todoLists: [TodoList!]
+  todos(after: TodoWhereUniqueInput, before: TodoWhereUniqueInput, first: Int, last: Int): [Todo!]!
+  user: User
 }
 
 type Todo {
@@ -70,6 +30,10 @@ type TodoList {
   id: String!
   title: String!
   userId: String!
+}
+
+input TodoListWhereUniqueInput {
+  id: String
 }
 
 input TodoWhereUniqueInput {

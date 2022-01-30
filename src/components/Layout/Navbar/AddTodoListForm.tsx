@@ -1,12 +1,7 @@
 import * as React from 'react';
 
-import { FormControl, IconButton } from '@mui/material';
-
+import { FormControl, IconButton, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-
-import { Form } from 'src/components/Todos/styles';
-
-import { TextField } from '@mui/material';
 
 interface AddTodoListFormProps {
 	value: string;

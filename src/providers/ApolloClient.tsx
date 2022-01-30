@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 
 const apolloClient = new ApolloClient({
 	uri: '/api/graphql',
+	ssrMode: false,
 	cache: new InMemoryCache(),
 });
 

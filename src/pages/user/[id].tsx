@@ -10,7 +10,6 @@ const User: NextPage = () => {
 		storeState: { currentList, todoLists },
 	} = useStore();
 
-
 	return (
 		<PageLayout>
 			{currentList ? (

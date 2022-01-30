@@ -9,7 +9,6 @@ import { join } from 'path';
 export const schema = makeSchema({
 	types: [userTypes, todoTypes, todoListsTypes],
 	plugins: [nexusPrisma({ experimentalCRUD: true })],
-	
 
 	contextType: {
 		module: join(process.cwd(), 'src', 'graphql', 'context.ts'),

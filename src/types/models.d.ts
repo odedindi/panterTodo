@@ -8,9 +8,8 @@ interface Todo {
 
 interface TodoList {
 	id: string;
-	todos: Todo[];
+	todos?: Todo[];
 	title: string;
-	createdAt?: Date;
 }
 
 interface User {

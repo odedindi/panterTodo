@@ -9,6 +9,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import gsap from 'gsap';
 
+import moment from 'moment';
+
 interface TodoProps {
 	handleDelete: (id: Todo['id']) => void;
 	handleToggle: (id: Todo['id']) => void;
@@ -21,7 +23,7 @@ const TodoItem: React.FC<TodoProps> = ({
 	todo: { completed, createdAt, id, title },
 }) => {
 	const todoRef = React.useRef<HTMLLIElement>(undefined!);
-
+	console.log(moment(createdAt).fromNow());
 	useLayoutEffect(() => {
 		const fadeIn = (target: gsap.DOMTarget) =>
 			gsap.from(target, { opacity: 0 });
@@ -57,7 +59,7 @@ const TodoItem: React.FC<TodoProps> = ({
 			/>
 			<ListItemText
 				primary={title}
-				// secondary={completed ? '' : title}
+				secondary={completed ? undefined : moment(createdAt).fromNow()}
 			/>
 		</TodoContainer>
 	);

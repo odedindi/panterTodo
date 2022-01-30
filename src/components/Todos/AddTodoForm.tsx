@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { useMe } from 'src/hooks';
+import { useUser } from 'src/hooks';
 
 import { FormControl, IconButton, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
@@ -15,8 +15,8 @@ interface AddTodoFormProps {
 
 const AddTodoForm = React.forwardRef<HTMLInputElement, AddTodoFormProps>(
 	({ handleChange, handleSubmit, value }, ref) => {
-		const me = useMe().data?.me;
-		const privateName = me?.name?.split(' ')[0];
+		const user = useUser().data?.user;
+		const privateName = user?.name?.split(' ')[0];
 
 		return (
 			<FormControl sx={{ width: '100%', padding: 5 }}>
