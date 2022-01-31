@@ -64,6 +64,7 @@ This is a [nextjs](https://nextjs.org/) project with
 
 ### getting started and important scripts
 
+- run `docker-compose up` from the root folder to run the db
 - run `yarn dev` to run it locally on [localhost:3000](http://localhost:3000)
 - run `yarn check:types` to check types
 - run `yarn check:lint` to check linting
