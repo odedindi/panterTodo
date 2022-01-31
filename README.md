@@ -75,6 +75,7 @@ This is a [nextjs](https://nextjs.org/) project with
 
 ### Env vars
 
+```
 DATABASE_URL
 AUTH_SECRET
 GOOGLE_CLIENT_ID
@@ -83,7 +84,7 @@ GOOGLE_CLIENT_SECRET
 POSTGRES_USER
 POSTGRES_PASSWORD
 POSTGRES_DB
-
+```
 ### Database schema changes
 
 ```
