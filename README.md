@@ -64,15 +64,14 @@ This is a [nextjs](https://nextjs.org/) project with
 
 ### getting started and important scripts
 
-run `yarn dev` to run it locally on [localhost:3000](http://localhost:3000)
-run `yarn check:types` to check types
-run `yarn check:lint` to check linting
-run `yarn check:all` to check both types, linting and format (using prettier)
-run `yarn check:build` to check types, linting, format and build
-run `yarn prisma:studio` to run the prisma db control panel on [localhost:5555](http://localhost:5555)
-run `yarn prisma:migrate:dev` to migrate the schema
-
-run `generate:types` to generate new apollo types
+- run `yarn dev` to run it locally on [localhost:3000](http://localhost:3000)
+- run `yarn check:types` to check types
+- run `yarn check:lint` to check linting
+- run `yarn check:all` to check both types, linting and format (using prettier)
+- run `yarn check:build` to check types, linting, format and build
+- run `yarn prisma:studio` to run the prisma db control panel on [localhost:5555](http://localhost:5555)
+- run `yarn prisma:migrate:dev` to migrate the schema
+- run `generate:types` to generate new apollo types
 
 ### Env vars
 
