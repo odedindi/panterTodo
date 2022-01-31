@@ -272,8 +272,8 @@ export const Mutation = extendType({
 ### Code examples
 
 - store
-  _utilize React's createContext, useContext, useReducer and useMemo hooks and RxJS observables_
-  _accessible throughout the app using a useStore hook_
+  - utilize React's createContext, useContext, useReducer and useMemo hooks and RxJS observables
+  - accessible throughout the app using a useStore hook
 
 ```
 onst storeInitalState: StoreState = {
@@ -343,7 +343,7 @@ const useStore = () => React.useContext(todoStoreContext);
 ```
 
 - modular SEO provider
-  \*using next-seo and a custom extendable provider for flexibility
+	- using next-seo and a custom extendable provider for flexibility
 
 ```
 interface SEOProps {
