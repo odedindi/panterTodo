@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import useStore from 'src/store';
 import {
-	useCreateTodo,
 	useDeleteTodo,
 	useEditTodo,
 	useToggleTodo,
@@ -23,46 +22,9 @@ const TodoApp = () => {
 		storeState: { currentTodos, currentList },
 	} = useStore();
 
-	const [visibleTodos, setVisibleTodos] = React.useState(() => currentTodos);
-	React.useEffect(() => {
-		setVisibleTodos(currentTodos);
-	}, [currentTodos]);
-
-	const [createTodo, createTodoData] = useCreateTodo();
 	const [deleteTodo, deleteTodoData] = useDeleteTodo();
 	const [editTodo, editTodoData] = useEditTodo();
 	const [toggleTodo, toggleTodoData] = useToggleTodo();
-
-	// new todo
-	const [showToastError, setShowToastError] = React.useState(false);
-	const setShowToastErrorFalse = () => setShowToastError(false);
-	const [newTodoTitle, setNewTodoTitle] = React.useState<string>('');
-	const textFieldRef = React.useRef<HTMLInputElement>(undefined!);
-
-	const addTodoFormHandle = {
-		change: React.useCallback(
-			({
-				currentTarget: { value },
-			}: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-				setNewTodoTitle(value),
-			[],
-		),
-		submit: React.useCallback(() => {
-			if (!newTodoTitle.trim())
-				return (
-					textFieldRef.current.children['1'].children['0'] as HTMLInputElement
-				).focus();
-
-			if (!currentList) return setShowToastError(true);
-			createTodo({
-				variables: {
-					title: newTodoTitle,
-					todoListId: currentList,
-				},
-			});
-			setNewTodoTitle(''); // init value
-		}, [createTodo, currentList, newTodoTitle]),
-	};
 
 	// todo
 	const todoHandle = {
@@ -100,17 +62,9 @@ const TodoApp = () => {
 	}, []);
 	return (
 		<>
-			{currentList && (
-				<AddTodoForm
-					handleChange={addTodoFormHandle.change}
-					handleSubmit={addTodoFormHandle.submit}
-					value={newTodoTitle}
-					ref={textFieldRef}
-				/>
-			)}
-			<ErrorToast show={showToastError} hide={setShowToastErrorFalse} />
+			{currentList && <AddTodoForm currentList={currentList} />}
 			<List>
-				{visibleTodos.map((todo) => (
+				{currentTodos.map((todo) => (
 					<TodoItem
 						ref={todoRef}
 						todo={todo}

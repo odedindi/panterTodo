@@ -15,11 +15,11 @@ type Mutation {
 }
 
 type Query {
+  me: User
   todo(where: TodoWhereUniqueInput!): Todo
   todoList(where: TodoListWhereUniqueInput!): TodoList
   todoLists: [TodoList!]
   todos(after: TodoWhereUniqueInput, before: TodoWhereUniqueInput, first: Int, last: Int): [Todo!]!
-  user: User
 }
 
 type Todo {
@@ -33,6 +33,7 @@ type Todo {
 type TodoList {
   id: String!
   title: String!
+  todos(after: TodoWhereUniqueInput, before: TodoWhereUniqueInput, first: Int, last: Int): [Todo!]!
   userId: String!
 }
 
@@ -49,4 +50,5 @@ type User {
   id: String!
   image: String
   name: String
+  todoLists(after: TodoListWhereUniqueInput, before: TodoListWhereUniqueInput, first: Int, last: Int): [TodoList!]!
 }

@@ -18,10 +18,9 @@ import {
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import TodoListMenu from './TodoListMenu';
-
 import UserAvatar from 'src/components/Avatar';
 import PanterLogo from 'src/components/Logo';
+import TodoListMenu from 'src/components/TodoLists';
 
 const Navbar = () => {
 	const {

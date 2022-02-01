@@ -1,4 +1,4 @@
-import { useUser } from './useQueries/User';
+import { useMe } from './useQueries/Me';
 import {
 	useTodoList,
 	useCreateTodoList,
@@ -13,11 +13,9 @@ import {
 	useToggleTodo,
 } from './useQueries/Todo';
 import useLayoutEffect from './useIsomorphicLayoutEffect';
-import useKeyboardListener from './useKeyboardListener';
 export {
-	useKeyboardListener,
 	useLayoutEffect,
-	useUser,
+	useMe,
 	useTodoList,
 	useCreateTodoList,
 	useDeleteTodoList,

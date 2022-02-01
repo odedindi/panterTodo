@@ -9,7 +9,7 @@
 
 export interface CreateTodo_createTodo {
   __typename: "Todo";
-  id: string;
+  todoListId: string;
   title: string;
 }
 
@@ -18,6 +18,6 @@ export interface CreateTodo {
 }
 
 export interface CreateTodoVariables {
-  id: string;
+  todoListId: string;
   title: string;
 }

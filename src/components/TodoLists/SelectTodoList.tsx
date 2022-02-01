@@ -1,5 +1,8 @@
 import * as React from 'react';
 
+import { action, useStore } from 'src/store';
+import { useDeleteTodoList } from 'src/hooks/useQueries/TodoList';
+
 import {
 	FormControl,
 	FormHelperText,
@@ -12,22 +15,20 @@ import type { SelectChangeEvent } from '@mui/material/Select';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
-interface SelectTodoListProps {
-	deleteTodoList: (id: ITodoList['id']) => void;
-	handleChange: (e: SelectChangeEvent) => void;
-	todoLists: ITodoList[];
-	value: ITodoList['title'];
-}
-const SelectTodoList: React.FC<SelectTodoListProps> = ({
-	deleteTodoList,
-	handleChange,
-	todoLists,
-	value,
-}) => {
-	const [availableLists, setAvailableLists] = React.useState(() => todoLists);
-	React.useEffect(() => {
-		setAvailableLists(todoLists);
-	}, [todoLists]);
+const SelectTodoList = () => {
+	const {
+		storeState: { todoLists, currentList },
+		dispatch,
+	} = useStore();
+	const [deleteTodoList, deleteData] = useDeleteTodoList();
+
+	const handleChangeSelectedTodoList = ({
+		target: { value },
+	}: SelectChangeEvent & { target: { value: ITodoList['id'] } }) =>
+		dispatch(action.selectTodoList({ id: value }));
+
+	const handleDeleteTodoList = (id: ITodoList['id']) =>
+		deleteTodoList({ variables: { id } });
 
 	return (
 		<FormControl sx={{ m: 1, minWidth: 300 }}>
@@ -35,16 +36,16 @@ const SelectTodoList: React.FC<SelectTodoListProps> = ({
 			<Select
 				labelId="todoListsLabel"
 				id="todoLists"
-				value={value}
+				value={currentList ?? ''}
 				label="Todo lists"
-				onChange={handleChange}
+				onChange={handleChangeSelectedTodoList}
 			>
-				{availableLists.map(({ id, title }) => (
+				{todoLists.map(({ id, title }) => (
 					<MenuItem key={id} value={id}>
 						<IconButton
 							edge="start"
 							aria-label="delete"
-							onClick={() => deleteTodoList(id)}
+							onClick={() => handleDeleteTodoList(id)}
 						>
 							<DeleteIcon />
 						</IconButton>

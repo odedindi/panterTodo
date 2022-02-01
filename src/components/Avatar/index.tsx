@@ -1,28 +1,28 @@
 import * as React from 'react';
 
 import { useStore } from 'src/store';
+import { useMe } from 'src/hooks';
 
 import { Avatar, Tooltip } from '@mui/material';
 
 import { stringAvatar } from './helpers';
 
-const UserAvatar: React.FC = () => {
-	const {
-		storeState: { user },
-	} = useStore();
-	return !user ? null : !user.image ? (
-		<Tooltip title={user.email ?? ''}>
-			<Avatar {...stringAvatar(user.email ?? '')} />
+const MyAvatar: React.FC = () => {
+	const me = useMe().data?.me;
+
+	return !me ? null : !me.image ? (
+		<Tooltip title={me.email ?? ''}>
+			<Avatar {...stringAvatar(me.email ?? '')} />
 		</Tooltip>
 	) : (
-		<Tooltip title={user.email ?? ''}>
+		<Tooltip title={me.email ?? ''}>
 			<Avatar
-				alt={user.email ?? ''}
-				src={user?.image}
+				alt={me.email ?? ''}
+				src={me?.image}
 				sx={{ width: 56, height: 56 }}
 			/>
 		</Tooltip>
 	);
 };
 
-export default UserAvatar;
+export default MyAvatar;

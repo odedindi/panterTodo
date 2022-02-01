@@ -6,6 +6,7 @@ export const TodoList = objectType({
 		t.model.id()!;
 		t.model.title()!;
 		t.model.userId()!;
+		t.model.todos()!;
 	},
 });
 

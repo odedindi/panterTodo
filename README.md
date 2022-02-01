@@ -12,8 +12,6 @@
 
 ## The challenge
 
-
-
 - [x] A logged in user should be able to create new Todo-lists
 - [x] A list should have some title and of course Todos
 - [x] A todo has some title and whether it's done
@@ -21,8 +19,6 @@
 - [x] everything should be persisted in the database
 - [x] use apollo queries and mutations to fetch and update data
 - [x] other users or not logged in users should not see other's todolists
-
-
 
 ### Work description
 
@@ -86,6 +82,7 @@ POSTGRES_USER
 POSTGRES_PASSWORD
 POSTGRES_DB
 ```
+
 ### Database schema changes
 
 ```
@@ -344,7 +341,7 @@ const useStore = () => React.useContext(todoStoreContext);
 ```
 
 - modular SEO provider
-	- using next-seo and a custom extendable provider for flexibility
+  - using next-seo and a custom extendable provider for flexibility
 
 ```
 interface SEOProps {

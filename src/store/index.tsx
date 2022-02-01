@@ -7,7 +7,7 @@ import reducer from './reducer';
 import { BehaviorSubject, Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { combineLatestWith, map, tap, takeUntil } from 'rxjs/operators';
 
-import { useUser, useTodoList, useTodos } from 'src/hooks';
+import { useTodoList, useTodos } from 'src/hooks';
 
 const storeInitalState: StoreState = {
 	todoLists: [],
@@ -21,12 +21,9 @@ const todoStoreContext = React.createContext<StoreContext>(undefined!);
 const { Provider }: { Provider: React.Provider<StoreContext> } =
 	todoStoreContext;
 
-type StoreOperation = (storeState: Partial<StoreState>) => Partial<StoreState>;
-
 const TodoStoreProvider: React.FC = ({ children }) => {
 	const [storeState, dispatch] = React.useReducer(reducer, storeInitalState);
 
-	const user = useUser().data?.user;
 	const todoLists = useTodoList().data?.todoLists;
 	const todos = useTodos().data?.todos;
 
@@ -46,7 +43,6 @@ const TodoStoreProvider: React.FC = ({ children }) => {
 		[],
 	);
 
-	const user$ = React.useMemo(() => of(user), [user]);
 	const todoLists$ = React.useMemo(() => of(todoLists), [todoLists]);
 	const currentList$ = React.useMemo(
 		() => of(storeState.currentList),
@@ -55,9 +51,6 @@ const TodoStoreProvider: React.FC = ({ children }) => {
 	const currentTodos$ = React.useMemo(() => of(todos), [todos]);
 
 	React.useEffect(() => {
-		user$.pipe(takeUntil(destroyeSubscribtion$)).subscribe((user) => {
-			if (user) dispatch(action.setUser({ user }));
-		});
 		todoLists$.pipe(takeUntil(destroyeSubscribtion$)).subscribe((todoLists) => {
 			if (todoLists) dispatch(action.setTodoLists({ todoLists }));
 		});
@@ -77,7 +70,7 @@ const TodoStoreProvider: React.FC = ({ children }) => {
 			destroyeSubscribtion$.next(true);
 			destroyeSubscribtion$.complete();
 		};
-	}, [currentList$, currentTodos$, destroyeSubscribtion$, todoLists$, user$]);
+	}, [currentList$, currentTodos$, destroyeSubscribtion$, todoLists$]);
 
 	return <Provider value={{ storeState, dispatch }}>{children}</Provider>;
 };

@@ -7,13 +7,14 @@ export const User = objectType({
 		t.model.email();
 		t.model.image();
 		t.model.name();
+		t.model.todoLists();
 	},
 });
 
 export const Query = extendType({
 	type: 'Query',
 	definition(t) {
-		t.field('user', {
+		t.field('me', {
 			type: User,
 			resolve: (root, args, context) => {
 				if (!context.session?.user.id) return null;

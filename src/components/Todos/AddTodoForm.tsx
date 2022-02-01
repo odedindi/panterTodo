@@ -1,24 +1,51 @@
 import * as React from 'react';
 
-import { useUser } from 'src/hooks';
+import { useCreateTodo, useMe } from 'src/hooks';
 
 import { FormControl, IconButton, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
-interface AddTodoFormProps {
-	handleChange: (
-		e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
-	) => void;
-	handleSubmit: () => void;
-	value: string;
-}
+import ErrorToast from 'src/components/ErrorToast';
 
-const AddTodoForm = React.forwardRef<HTMLInputElement, AddTodoFormProps>(
-	({ handleChange, handleSubmit, value }, ref) => {
-		const user = useUser().data?.user;
-		const privateName = user?.name?.split(' ')[0];
+type AddTodoFormProps = {
+	currentList?: ITodoList['id'];
+};
 
-		return (
+const AddTodoForm: React.FC<AddTodoFormProps> = ({ currentList }) => {
+	const myFirstName = useMe().data?.me?.name?.split(' ')[0];
+
+	const [createTodo, createTodoData] = useCreateTodo();
+
+	const [showToastError, setShowToastError] = React.useState(false);
+	const setShowToastErrorFalse = () => setShowToastError(false);
+	const [newTodoTitle, setNewTodoTitle] = React.useState<string>('');
+	const textFieldRef = React.useRef<HTMLInputElement>(undefined!);
+
+	const handleChange = React.useCallback(
+		({
+			currentTarget: { value },
+		}: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+			setNewTodoTitle(value),
+		[],
+	);
+	const handleSubmit = React.useCallback(() => {
+		if (!newTodoTitle.trim())
+			return (
+				textFieldRef.current.children['1'].children['0'] as HTMLInputElement
+			).focus();
+
+		if (!currentList) return setShowToastError(true);
+		createTodo({
+			variables: {
+				title: newTodoTitle,
+				todoListId: currentList,
+			},
+		});
+		setNewTodoTitle(''); // init value
+	}, [createTodo, currentList, newTodoTitle]);
+
+	return (
+		<>
 			<FormControl sx={{ width: '100%', padding: 5 }}>
 				<TextField
 					label="Add Todo"
@@ -39,18 +66,19 @@ const AddTodoForm = React.forwardRef<HTMLInputElement, AddTodoFormProps>(
 						),
 					}}
 					placeholder={
-						privateName ? `${privateName}, shoot for the stars!` : 'What is up?'
+						myFirstName ? `${myFirstName}, shoot for the stars!` : 'What is up?'
 					}
-					value={value}
+					value={newTodoTitle}
 					onChange={handleChange}
-					ref={ref}
+					ref={textFieldRef}
 					onKeyPress={({ key }) => {
 						if (key === 'Enter') handleSubmit();
 					}}
 				/>
 			</FormControl>
-		);
-	},
-);
+			<ErrorToast show={showToastError} hide={setShowToastErrorFalse} />
+		</>
+	);
+};
 
 export default React.memo(AddTodoForm);
