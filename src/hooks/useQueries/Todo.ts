@@ -68,7 +68,7 @@ export const useDeleteTodo = () =>
 	});
 
 const EDITTODO = gql`
-	mutation EditTodo($id: ID!, $title: String!) {
+	mutation EditTodo($id: String!, $title: String!) {
 		editTodoTitle(id: $id, title: $title) {
 			id
 			title

@@ -1,5 +1,10 @@
 import * as React from 'react';
 
+import type {
+	MyTodoLists_myTodoLists,
+	MyTodoLists,
+} from 'src/hooks/useQueries/__generated__/MyTodoLists';
+
 import { TodoContainer } from './styles';
 import { Checkbox, IconButton, ListItemText } from '@mui/material';
 

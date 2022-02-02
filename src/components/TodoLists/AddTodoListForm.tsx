@@ -6,8 +6,7 @@ import { FormControl, IconButton, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
 const AddTodoListForm = () => {
-	const [createTodoList, createData] = useCreateTodoList();
-	// new todolist form
+	const [createTodoList, _createData] = useCreateTodoList();
 	const [newTodoListTitle, setNewTodoListTitle] = React.useState<string>('');
 	const textFieldRef = React.useRef<HTMLInputElement>(undefined!);
 
@@ -24,7 +23,6 @@ const AddTodoListForm = () => {
 				textFieldRef.current.children['1'].children['0'] as HTMLInputElement
 			).focus();
 		createTodoList({ variables: { title: newTodoListTitle } });
-		// dispatch(action.createTodoList({ title: newTodoListTitle }));
 		setNewTodoListTitle(''); // init newTodoListTitle
 	}, [createTodoList, newTodoListTitle]);
 

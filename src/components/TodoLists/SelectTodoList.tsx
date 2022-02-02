@@ -1,7 +1,11 @@
 import * as React from 'react';
 
-import { action, useStore } from 'src/store';
-import { useDeleteTodoList } from 'src/hooks/useQueries/TodoList';
+import {
+	useDeleteTodoList,
+	useMyTodoLists,
+	useSelectedTodoList,
+} from 'src/hooks';
+import type { MyTodoLists_myTodoLists } from 'src/hooks/useQueries/__generated__/MyTodoLists';
 
 import {
 	FormControl,
@@ -16,19 +20,24 @@ import type { SelectChangeEvent } from '@mui/material/Select';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const SelectTodoList = () => {
-	const {
-		storeState: { todoLists, currentList },
-		dispatch,
-	} = useStore();
-	const [deleteTodoList, deleteData] = useDeleteTodoList();
+	const myTodoLists = useMyTodoLists().data?.myTodoLists;
+	const [deleteTodoList, _deleteData] = useDeleteTodoList();
+	const { selectedTodoList, setSelectedTodoList } = useSelectedTodoList();
 
-	const handleChangeSelectedTodoList = ({
-		target: { value },
-	}: SelectChangeEvent & { target: { value: ITodoList['id'] } }) =>
-		dispatch(action.selectTodoList({ id: value }));
+	const handleChangeSelectedTodoList = React.useCallback(
+		({
+			target: { value },
+		}: SelectChangeEvent & {
+			target: { value: MyTodoLists_myTodoLists['id'] };
+		}) => setSelectedTodoList(myTodoLists?.find((list) => list.id === value)),
+		[myTodoLists, setSelectedTodoList],
+	);
 
-	const handleDeleteTodoList = (id: ITodoList['id']) =>
-		deleteTodoList({ variables: { id } });
+	const handleDeleteTodoList = React.useCallback(
+		(id: MyTodoLists_myTodoLists['id']) =>
+			deleteTodoList({ variables: { id } }),
+		[deleteTodoList],
+	);
 
 	return (
 		<FormControl sx={{ m: 1, minWidth: 300 }}>
@@ -36,11 +45,11 @@ const SelectTodoList = () => {
 			<Select
 				labelId="todoListsLabel"
 				id="todoLists"
-				value={currentList ?? ''}
+				value={selectedTodoList?.title ?? ''}
 				label="Todo lists"
 				onChange={handleChangeSelectedTodoList}
 			>
-				{todoLists.map(({ id, title }) => (
+				{(myTodoLists ?? []).map(({ id, title }) => (
 					<MenuItem key={id} value={id}>
 						<IconButton
 							edge="start"

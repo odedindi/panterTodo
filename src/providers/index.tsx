@@ -4,7 +4,8 @@ import NextAuthProvider from './NextAuthSession';
 import ApolloClientProvider from './ApolloClient';
 import SEOProvider from './SEO';
 import StylesProvider from './Styles';
-import { TodoStoreProvider } from 'src/store';
+
+import SelectedTodoListProvider from './SelectedTodoList';
 
 interface ProvidersProps {
 	session: Session;
@@ -15,7 +16,7 @@ const Providers: React.FC<ProvidersProps> = ({ children, session }) => (
 		<ApolloClientProvider>
 			<SEOProvider />
 			<StylesProvider>
-				<TodoStoreProvider>{children}</TodoStoreProvider>
+				<SelectedTodoListProvider>{children}</SelectedTodoListProvider>
 			</StylesProvider>
 		</ApolloClientProvider>
 	</NextAuthProvider>

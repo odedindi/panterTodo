@@ -16,6 +16,7 @@ type Mutation {
 
 type Query {
   me: User
+  myTodoLists: [TodoList!]
   todo(where: TodoWhereUniqueInput!): Todo
   todoList(where: TodoListWhereUniqueInput!): TodoList
   todoLists: [TodoList!]
@@ -50,5 +51,4 @@ type User {
   id: String!
   image: String
   name: String
-  todoLists(after: TodoListWhereUniqueInput, before: TodoListWhereUniqueInput, first: Int, last: Int): [TodoList!]!
 }

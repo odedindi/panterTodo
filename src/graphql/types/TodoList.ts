@@ -9,7 +9,6 @@ export const TodoList = objectType({
 		t.model.todos()!;
 	},
 });
-
 export const Query = extendType({
 	type: 'Query',
 	definition(t) {
@@ -23,6 +22,15 @@ export const Query = extendType({
 					});
 				},
 			});
+		t.list.nonNull.field('myTodoLists', {
+			type: nonNull(TodoList),
+			resolve: async (_root, _args, context) =>
+				!context.session?.user.id
+					? null
+					: await context.prisma.todoList.findMany({
+							where: { userId: context.session.user.id },
+					  }),
+		});
 	},
 });
 

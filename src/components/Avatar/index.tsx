@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { useStore } from 'src/store';
 import { useMe } from 'src/hooks';
 
 import { Avatar, Tooltip } from '@mui/material';
@@ -18,7 +17,7 @@ const MyAvatar: React.FC = () => {
 		<Tooltip title={me.email ?? ''}>
 			<Avatar
 				alt={me.email ?? ''}
-				src={me?.image}
+				src={me.image}
 				sx={{ width: 56, height: 56 }}
 			/>
 		</Tooltip>

@@ -9,7 +9,6 @@ const ME = gql`
 			email
 			image
 			name
-			todoLists
 		}
 	}
 `;

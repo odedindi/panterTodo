@@ -1,30 +1,29 @@
 import * as React from 'react';
 
-import useStore from 'src/store';
-import {
-	useDeleteTodo,
-	useEditTodo,
-	useToggleTodo,
-	useLayoutEffect,
-} from 'src/hooks';
+import { useMyTodoLists, useTodos, useSelectedTodoList } from 'src/hooks';
+
+import { useDeleteTodo, useToggleTodo, useLayoutEffect } from 'src/hooks';
 
 import { List } from '@mui/material';
 
 import AddTodoForm from './AddTodoForm';
 import TodoItem from './TodoItem';
 
-import ErrorToast from 'src/components/ErrorToast';
-
 import gsap from 'gsap';
 
 const TodoApp = () => {
-	const {
-		storeState: { currentTodos, currentList },
-	} = useStore();
+	const { selectedTodoList } = useSelectedTodoList();
+	const myTodoLists = useMyTodoLists().data?.myTodoLists;
+	const todos = useTodos().data?.todos;
+	const visibleTodos =
+		todos?.filter(({ todoListId }) => todoListId === selectedTodoList?.id) ??
+		[];
 
-	const [deleteTodo, deleteTodoData] = useDeleteTodo();
-	const [editTodo, editTodoData] = useEditTodo();
-	const [toggleTodo, toggleTodoData] = useToggleTodo();
+	console.log(visibleTodos);
+
+	const [deleteTodo, _deleteTodoData] = useDeleteTodo();
+	// const [editTodo, editTodoData] = useEditTodo();
+	const [toggleTodo, _toggleTodoData] = useToggleTodo();
 
 	// todo
 	const todoHandle = {
@@ -62,9 +61,9 @@ const TodoApp = () => {
 	}, []);
 	return (
 		<>
-			{currentList && <AddTodoForm currentList={currentList} />}
+			{selectedTodoList && <AddTodoForm currentList={selectedTodoList.title} />}
 			<List>
-				{currentTodos.map((todo) => (
+				{visibleTodos.map((todo) => (
 					<TodoItem
 						ref={todoRef}
 						todo={todo}

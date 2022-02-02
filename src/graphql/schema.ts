@@ -21,4 +21,5 @@ export const schema = makeSchema({
 			'node_modules/@types/nexus-typegen-custom/index.d.ts',
 		),
 	},
+	shouldGenerateArtifacts: true,
 });

@@ -7,7 +7,6 @@ export const User = objectType({
 		t.model.email();
 		t.model.image();
 		t.model.name();
-		t.model.todoLists();
 	},
 });
 
@@ -16,7 +15,7 @@ export const Query = extendType({
 	definition(t) {
 		t.field('me', {
 			type: User,
-			resolve: (root, args, context) => {
+			resolve: (_root, _args, context) => {
 				if (!context.session?.user.id) return null;
 
 				return context.prisma.user.findFirst({

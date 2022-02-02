@@ -3,21 +3,29 @@ import * as React from 'react';
 
 import styled from 'styled-components';
 
-import useStore from 'src/store';
+import { useSelectedTodoList } from 'src/hooks';
+
+import type {
+	MyTodoLists_myTodoLists,
+	MyTodoLists,
+} from 'src/hooks/useQueries/__generated__/MyTodoLists';
+
 import PageLayout from 'src/components/Layout';
 import TodoApp from 'src/components/Todos';
 
+import TodoListsMenu, {
+	SelectTodoList,
+	AddTodoListForm,
+} from 'src/components/TodoLists';
+
 const User: NextPage = () => {
-	const {
-		storeState: { currentList, todoLists },
-	} = useStore();
+	const { selectedTodoList } = useSelectedTodoList();
 
 	return (
 		<PageLayout>
-			{currentList ? (
-				<Heading>
-					{todoLists.find((list) => list.id === currentList)?.title}
-				</Heading>
+			<TodoListsMenu />
+			{selectedTodoList ? (
+				<Heading>{selectedTodoList.title}</Heading>
 			) : (
 				<Heading>Please choose a todo list from the todo lists menu </Heading>
 			)}

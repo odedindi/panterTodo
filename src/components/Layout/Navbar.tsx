@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { signIn, signOut } from 'next-auth/react';
 
-import { useStore } from 'src/store';
+import { useMe } from 'src/hooks';
 
 import {
 	AppBar,
@@ -23,9 +23,7 @@ import PanterLogo from 'src/components/Logo';
 import TodoListMenu from 'src/components/TodoLists';
 
 const Navbar = () => {
-	const {
-		storeState: { user },
-	} = useStore();
+	const me = useMe().data?.me;
 
 	const triggerHideNavbar = useScrollTrigger();
 
@@ -34,7 +32,7 @@ const Navbar = () => {
 			<Box sx={{ flexGrow: 1 }}>
 				<AppBar position="static">
 					<Toolbar>
-						{user ? (
+						{me ? (
 							<Tooltip title="Logout">
 								<IconButton
 									size="large"
@@ -62,9 +60,8 @@ const Navbar = () => {
 							</Tooltip>
 						)}
 						<PanterLogo />
-						{user && (
+						{me && (
 							<Stack direction="row" spacing={2} alignItems="center">
-								<TodoListMenu />
 								<UserAvatar />
 							</Stack>
 						)}

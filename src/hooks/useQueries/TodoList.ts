@@ -1,8 +1,18 @@
 import { gql, useQuery, useMutation } from '@apollo/client';
 import type { TodoList } from './__generated__/TodoList';
-import type { CreateTodoList } from './__generated__/CreateTodoList';
-import type { DeleteTodoList } from './__generated__/DeleteTodoList';
-import type { EditTodoList } from './__generated__/EditTodoList';
+import type {
+	CreateTodoList,
+	CreateTodoListVariables,
+} from './__generated__/CreateTodoList';
+import type {
+	DeleteTodoList,
+	DeleteTodoListVariables,
+} from './__generated__/DeleteTodoList';
+import type {
+	EditTodoList,
+	EditTodoListVariables,
+} from './__generated__/EditTodoList';
+import type { MyTodoLists } from './__generated__/MyTodoLists';
 
 const TODOLIST = gql`
 	query TodoList {
@@ -14,6 +24,16 @@ const TODOLIST = gql`
 `;
 export const useTodoList = () => useQuery<TodoList>(TODOLIST);
 
+const MYTODOLISTS = gql`
+	query MyTodoLists {
+		myTodoLists {
+			id
+			title
+			userId
+		}
+	}
+`;
+export const useMyTodoLists = () => useQuery<MyTodoLists>(MYTODOLISTS);
 const CREATETODOLIST = gql`
 	mutation CreateTodoList($title: String!) {
 		createTodoList(title: $title) {
@@ -24,7 +44,7 @@ const CREATETODOLIST = gql`
 `;
 
 export const useCreateTodoList = () =>
-	useMutation<CreateTodoList>(CREATETODOLIST, {
+	useMutation<CreateTodoList, CreateTodoListVariables>(CREATETODOLIST, {
 		refetchQueries: [TODOLIST],
 		onQueryUpdated: (observableQuery) => observableQuery.refetch(),
 	});
@@ -38,13 +58,13 @@ const DELETETODOLIST = gql`
 `;
 
 export const useDeleteTodoList = () =>
-	useMutation<DeleteTodoList>(DELETETODOLIST, {
+	useMutation<DeleteTodoList, DeleteTodoListVariables>(DELETETODOLIST, {
 		refetchQueries: [TODOLIST],
 		onQueryUpdated: (observableQuery) => observableQuery.refetch(),
 	});
 
 const EDITTODOLIST = gql`
-	mutation EditTodoList($id: ID!, $title: String!) {
+	mutation EditTodoList($id: String!, $title: String!) {
 		editTodoListTitle(id: $id, title: $title) {
 			id
 			title
@@ -53,7 +73,7 @@ const EDITTODOLIST = gql`
 `;
 
 export const useEditTodoList = () =>
-	useMutation<EditTodoList>(EDITTODOLIST, {
+	useMutation<EditTodoList, EditTodoListVariables>(EDITTODOLIST, {
 		refetchQueries: [TODOLIST],
 		onQueryUpdated: (observableQuery) => observableQuery.refetch(),
 	});
