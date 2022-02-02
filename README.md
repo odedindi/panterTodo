@@ -1,5 +1,7 @@
 # starter challenge
 
+*last changes*
+After a good review, some changes were made, the app structure now make more sense, api calls were modified to be more context sentsitive, for example, useMe to fetch the user info a 
 ## Screenshots
 
 - Login Page

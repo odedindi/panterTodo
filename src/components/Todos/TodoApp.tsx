@@ -13,13 +13,10 @@ import gsap from 'gsap';
 
 const TodoApp = () => {
 	const { selectedTodoList } = useSelectedTodoList();
-	const myTodoLists = useMyTodoLists().data?.myTodoLists;
 	const todos = useTodos().data?.todos;
 	const visibleTodos =
 		todos?.filter(({ todoListId }) => todoListId === selectedTodoList?.id) ??
 		[];
-
-	console.log(visibleTodos);
 
 	const [deleteTodo, _deleteTodoData] = useDeleteTodo();
 	// const [editTodo, editTodoData] = useEditTodo();
