@@ -19,14 +19,8 @@ const allowCors = (fn: any) => async (req: any, res: any) => {
 	return await fn(req, res);
 };
 
-export const config = {
-	api: {
-		bodyParser: false,
-	},
-};
+export const config = { api: { bodyParser: false } };
 // @ts-ignore
 await server.start();
-const handler = server.createHandler({
-	path: '/api/graphql',
-});
+const handler = server.createHandler({ path: '/api/graphql' });
 export default allowCors(handler);

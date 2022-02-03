@@ -1,7 +1,15 @@
 # starter challenge
 
 *last changes*
-After a good review, some changes were made, the app structure now make more sense, api calls were modified to be more context sentsitive, for example, useMe to fetch the user info a 
+#### After a good review, some changes were made, the app structure now make more sense. 
+
+*for example:*
+
+- api calls were modified to be more context sentsitive, for example, useMe to fetch the current user info or useMyTodoLists to fetch the current user's todo lists.
+- remove store as it was redundant, exposing needed data where needed using the useQuering or useMutation hooks directly where needed.
+- clean the code more.
+- move the todo lists menu out from the navbar and have it as a heading on the user page.
+
 ## Screenshots
 
 - Login Page

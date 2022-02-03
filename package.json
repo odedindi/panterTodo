@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
-		"build": "npx prisma generate && next build",
+		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
 		"format": "prettier --write .",
@@ -13,13 +13,14 @@
 		"check:format": "prettier --check .",
 		"check:all": "yarn check:types && yarn check:lint && yarn check:format",
 		"check:build": "yarn check:all && yarn build",
-		"prisma:studio": "yarn prisma studio",
+		"prisma:generate": "prisma generate",
 		"prisma:migrate:dev": "yarn prisma migrate dev",
 		"prisma:migrate:deploy": "yarn prisma migrate deploy",
 		"prisma:migrate:reset": "yarn prisma migrate reset -f",
+		"prisma:studio": "yarn prisma studio",
 		"ts-node": "ts-node --compiler-options '{\"module\": \"CommonJS\"'",
-		"postinstall": "prisma generate",
-		"generate:types": "npx apollo codegen:generate --localSchemaFile=schema.graphql --target=typescript --tagName=gql"
+		"generate:types": "npx apollo codegen:generate --localSchemaFile=schema.graphql --target=typescript --tagName=gql",
+		"postinstall": "yarn prisma:generate && yarn generate:types"
 	},
 	"dependencies": {
 		"@apollo/client": "^3.4.10",

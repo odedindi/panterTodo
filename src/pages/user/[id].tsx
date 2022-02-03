@@ -1,33 +1,35 @@
 import type { NextPage } from 'next';
 import * as React from 'react';
 
-import styled from 'styled-components';
+import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
+
+import * as S from 'src/styles';
 
 import { useSelectedTodoList } from 'src/hooks';
-
-import type {
-	MyTodoLists_myTodoLists,
-	MyTodoLists,
-} from 'src/hooks/useQueries/__generated__/MyTodoLists';
 
 import PageLayout from 'src/components/Layout';
 import TodoApp from 'src/components/Todos';
 
-import TodoListsMenu, {
-	SelectTodoList,
-	AddTodoListForm,
-} from 'src/components/TodoLists';
+import TodoListsMenu from 'src/components/TodoLists';
 
 const User: NextPage = () => {
+	const { data: session, status } = useSession();
+	const router = useRouter();
+
+	if (status === 'unauthenticated') router.push('/');
+
 	const { selectedTodoList } = useSelectedTodoList();
 
 	return (
 		<PageLayout>
 			<TodoListsMenu />
 			{selectedTodoList ? (
-				<Heading>{selectedTodoList.title}</Heading>
+				<S.Heading>{selectedTodoList.title}</S.Heading>
 			) : (
-				<Heading>Please choose a todo list from the todo lists menu </Heading>
+				<S.Heading>
+					Please choose a todo list from the todo lists menu{' '}
+				</S.Heading>
 			)}
 
 			<TodoApp />
@@ -36,8 +38,3 @@ const User: NextPage = () => {
 };
 
 export default User;
-
-const Heading = styled.h1`
-	font-size: 1.5rem;
-	text-align: center;
-`;

@@ -1,13 +1,13 @@
 import { makeSchema, queryType } from 'nexus';
 import { nexusPrisma } from 'nexus-plugin-prisma';
 
-import * as userTypes from './types/User';
-import * as todoTypes from './types/Todo';
-import * as todoListsTypes from './types/TodoList';
+import * as user from './types/User';
+import * as todo from './types/Todo';
+import * as todoList from './types/TodoList';
 import { join } from 'path';
 
 export const schema = makeSchema({
-	types: [userTypes, todoTypes, todoListsTypes],
+	types: [user, todo, todoList],
 	plugins: [nexusPrisma({ experimentalCRUD: true })],
 
 	contextType: {
@@ -22,4 +22,12 @@ export const schema = makeSchema({
 		),
 	},
 	shouldGenerateArtifacts: true,
+	sourceTypes: {
+		modules: [
+			{
+				module: require.resolve('../../node_modules/.prisma/client/index.d.ts'),
+				alias: 'PrismaClient',
+			},
+		],
+	},
 });

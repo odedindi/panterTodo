@@ -4,7 +4,8 @@ import * as React from 'react';
 
 import { signIn, useSession } from 'next-auth/react';
 
-import styled from 'styled-components';
+import * as S from 'src/styles'
+
 import { Button } from '@mui/material';
 
 import PageLayout from 'src/components/Layout';
@@ -22,12 +23,12 @@ const Home: NextPage = () => {
 	if (status === 'unauthenticated')
 		return (
 			<PageLayout>
-				<LoginContainer>
+				<S.LoginContainer>
 					<h1>Please Login to start using the app</h1>
 					<Button variant="outlined" onClick={() => signIn('google')}>
 						Login with Google
 					</Button>
-				</LoginContainer>
+				</S.LoginContainer>
 			</PageLayout>
 		);
 
@@ -36,17 +37,4 @@ const Home: NextPage = () => {
 
 export default Home;
 
-const LoginContainer = styled.section`
-	position: absolute;
-	top: 40%;
-	left: 20%;
-	right: 20%;
-	width: auto;
-	padding: 0 2rem;
-	border: 1px solid #eee;
-	box-sizing: border-box;
-	color: black;
-	border-radius: 4px;
 
-	text-align: center;
-`;

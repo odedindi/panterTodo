@@ -11,6 +11,7 @@ export interface MyTodoLists_myTodoLists {
   __typename: "TodoList";
   id: string;
   title: string;
+  userId: string;
 }
 
 export interface MyTodoLists {
