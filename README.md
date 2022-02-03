@@ -1,5 +1,7 @@
 # starter challenge
 
+* Can be seen live [here](https://panter-todo.vercel.app/)
+
 _last changes_
 
 #### After a good review, some changes were made, the app structure now make more sense.
