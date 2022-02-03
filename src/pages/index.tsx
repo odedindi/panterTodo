@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { signIn, useSession } from 'next-auth/react';
 
-import * as S from 'src/styles'
+import * as S from 'src/styles';
 
 import { Button } from '@mui/material';
 
@@ -36,5 +36,3 @@ const Home: NextPage = () => {
 };
 
 export default Home;
-
-

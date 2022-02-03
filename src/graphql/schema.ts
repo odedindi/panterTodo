@@ -22,12 +22,5 @@ export const schema = makeSchema({
 		),
 	},
 	shouldGenerateArtifacts: true,
-	sourceTypes: {
-		modules: [
-			{
-				module: require.resolve('../../node_modules/.prisma/client/index.d.ts'),
-				alias: 'PrismaClient',
-			},
-		],
-	},
+
 });
