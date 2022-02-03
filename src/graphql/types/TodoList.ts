@@ -1,18 +1,20 @@
 import { extendType, nonNull, objectType, stringArg } from 'nexus';
 
+import { crud, model } from '../helper';
+
 export const TodoList = objectType({
 	name: 'TodoList',
 	definition(t) {
-		t.model.id()!;
-		t.model.title()!;
-		t.model.userId()!;
-		t.model.todos()!;
+		model(t).id()!;
+		model(t).title()!;
+		model(t).userId()!;
+		model(t).todos()!;
 	},
 });
 export const Query = extendType({
 	type: 'Query',
 	definition(t) {
-		t.crud.todoList(),
+		crud(t).todoList(),
 			t.list.nonNull.field('todoLists', {
 				type: nonNull(TodoList),
 				async resolve(_root, _args, context) {

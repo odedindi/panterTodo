@@ -7,22 +7,24 @@ import {
 	stringArg,
 } from 'nexus';
 
+import { crud, model } from '../helper';
+
 export const Todo = objectType({
 	name: 'Todo',
 	definition(t) {
-		t.model.id()!;
-		t.model.title()!;
-		t.model.completed()!;
-		t.model.createdAt()!;
-		t.model.todoListId()!;
+		model(t).id()!;
+		model(t).title()!;
+		model(t).completed()!;
+		model(t).createdAt()!;
+		model(t).todoListId()!;
 	},
 });
 
 export const Query = extendType({
 	type: 'Query',
 	definition(t) {
-		t.crud.todo();
-		t.crud.todos();
+		crud(t).todo();
+		crud(t).todos();
 	},
 });
 

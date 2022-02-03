@@ -1,12 +1,14 @@
 import { extendType, objectType, queryType } from 'nexus';
 
+import { model } from '../helper';
+
 export const User = objectType({
 	name: 'User',
 	definition(t) {
-		t.model.id()!;
-		t.model.email();
-		t.model.image();
-		t.model.name();
+		model(t).id()!;
+		model(t).email();
+		model(t).image();
+		model(t).name();
 	},
 });
 

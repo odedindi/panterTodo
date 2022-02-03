@@ -19,8 +19,8 @@
 		"prisma:migrate:reset": "yarn prisma migrate reset -f",
 		"prisma:studio": "yarn prisma studio",
 		"ts-node": "ts-node --compiler-options '{\"module\": \"CommonJS\"'",
-		"generate:types": "npx apollo codegen:generate --localSchemaFile=schema.graphql --target=typescript --tagName=gql",
-		"postinstall": "yarn prisma:generate && yarn generate:types"
+		"postinstall": "prisma:generate",
+		"generate:types": "npx apollo codegen:generate --localSchemaFile=schema.graphql --target=typescript --tagName=gql"
 	},
 	"dependencies": {
 		"@apollo/client": "^3.4.10",
